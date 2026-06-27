@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "cloud_chaser_seattle_remastered_final",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

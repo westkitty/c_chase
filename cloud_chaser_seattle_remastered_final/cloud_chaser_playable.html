@@ -1294,6 +1294,11 @@
     currentAudioPath = '';
   }
 
+  function getTrackForLevel(){
+    const n = Math.min(Math.max((levelIndex || 0) + 1, 1), 6);
+    return `music/track_level${n}.mp3`;
+  }
+
   function updateMusic(dt){
     if(!settings.music || !soundOn) {
       stopMP3();

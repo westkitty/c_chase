@@ -1,0 +1,90 @@
+[debug] [2026-06-27T14:11:57.511Z] ----------------------------------------------------------------------
+[debug] [2026-06-27T14:11:57.514Z] Command:       /opt/homebrew/Cellar/node/26.3.1/bin/node /Users/andrew/.npm/_npx/ba4f1959e38407b5/node_modules/.bin/firebase projects:create cloudchaser-game --display-name CloudChaser
+[debug] [2026-06-27T14:11:57.514Z] CLI Version:   15.22.3
+[debug] [2026-06-27T14:11:57.514Z] Platform:      darwin
+[debug] [2026-06-27T14:11:57.514Z] Node Version:  v26.3.1
+[debug] [2026-06-27T14:11:57.514Z] Detected Agent: antigravity
+[debug] [2026-06-27T14:11:57.514Z] Time:          Sat Jun 27 2026 10:11:57 GMT-0400 (Eastern Daylight Time)
+[debug] [2026-06-27T14:11:57.514Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-06-27T14:11:57.675Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-06-27T14:11:57.675Z] > authorizing via signed-in user (digitalghosts269@gmail.com)
+[debug] [2026-06-27T14:11:57.678Z] Checked if tokens are valid: true, expires at: 1782572862678
+[debug] [2026-06-27T14:11:57.678Z] Checked if tokens are valid: true, expires at: 1782572862678
+[debug] [2026-06-27T14:11:57.680Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects [none]
+[debug] [2026-06-27T14:11:57.680Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"projectId":"cloudchaser-game","name":"CloudChaser"}
+[debug] [2026-06-27T14:11:57.972Z] *** [apiv2] retrying https://cloudresourcemanager.googleapis.com/v1/projects without keep-alive after a premature close error
+[debug] [2026-06-27T14:11:58.973Z] *** [apiv2] Attempting the request again. Attempt number 2
+[debug] [2026-06-27T14:11:58.973Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects [none]
+[debug] [2026-06-27T14:11:58.973Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"projectId":"cloudchaser-game","name":"CloudChaser"}
+[debug] [2026-06-27T14:11:59.276Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects 409
+[debug] [2026-06-27T14:11:59.277Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"error":{"code":409,"message":"Requested entity already exists","status":"ALREADY_EXISTS"}}
+[debug] [2026-06-27T14:11:59.278Z] FirebaseError: Request to https://cloudresourcemanager.googleapis.com/v1/projects had HTTP Error: 409, Requested entity already exists
+    at responseToError (/Users/andrew/.npm/_npx/ba4f1959e38407b5/node_modules/firebase-tools/lib/responseToError.js:53:12)
+    at RetryOperation._fn (/Users/andrew/.npm/_npx/ba4f1959e38407b5/node_modules/firebase-tools/lib/apiv2.js:381:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+[error] 
+[error] Error: Failed to create project because there is already a project with ID cloudchaser-game. Please try again with a unique project ID.
+[debug] [2026-06-27T14:12:05.378Z] ----------------------------------------------------------------------
+[debug] [2026-06-27T14:12:05.381Z] Command:       /opt/homebrew/Cellar/node/26.3.1/bin/node /Users/andrew/.npm/_npx/ba4f1959e38407b5/node_modules/.bin/firebase projects:create cloudchaser-seattle-2026 --display-name CloudChaser
+[debug] [2026-06-27T14:12:05.381Z] CLI Version:   15.22.3
+[debug] [2026-06-27T14:12:05.381Z] Platform:      darwin
+[debug] [2026-06-27T14:12:05.381Z] Node Version:  v26.3.1
+[debug] [2026-06-27T14:12:05.381Z] Detected Agent: antigravity
+[debug] [2026-06-27T14:12:05.381Z] Time:          Sat Jun 27 2026 10:12:05 GMT-0400 (Eastern Daylight Time)
+[debug] [2026-06-27T14:12:05.381Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-06-27T14:12:05.533Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-06-27T14:12:05.533Z] > authorizing via signed-in user (digitalghosts269@gmail.com)
+[debug] [2026-06-27T14:12:05.536Z] Checked if tokens are valid: true, expires at: 1782572862678
+[debug] [2026-06-27T14:12:05.536Z] Checked if tokens are valid: true, expires at: 1782572862678
+[debug] [2026-06-27T14:12:05.537Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects [none]
+[debug] [2026-06-27T14:12:05.537Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"projectId":"cloudchaser-seattle-2026","name":"CloudChaser"}
+[debug] [2026-06-27T14:12:05.836Z] *** [apiv2] retrying https://cloudresourcemanager.googleapis.com/v1/projects without keep-alive after a premature close error
+[debug] [2026-06-27T14:12:06.837Z] *** [apiv2] Attempting the request again. Attempt number 2
+[debug] [2026-06-27T14:12:06.838Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects [none]
+[debug] [2026-06-27T14:12:06.838Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"projectId":"cloudchaser-seattle-2026","name":"CloudChaser"}
+[debug] [2026-06-27T14:12:07.142Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects 409
+[debug] [2026-06-27T14:12:07.142Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"error":{"code":409,"message":"Requested entity already exists","status":"ALREADY_EXISTS"}}
+[debug] [2026-06-27T14:12:07.145Z] FirebaseError: Request to https://cloudresourcemanager.googleapis.com/v1/projects had HTTP Error: 409, Requested entity already exists
+    at responseToError (/Users/andrew/.npm/_npx/ba4f1959e38407b5/node_modules/firebase-tools/lib/responseToError.js:53:12)
+    at RetryOperation._fn (/Users/andrew/.npm/_npx/ba4f1959e38407b5/node_modules/firebase-tools/lib/apiv2.js:381:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+[error] 
+[error] Error: Failed to create project because there is already a project with ID cloudchaser-seattle-2026. Please try again with a unique project ID.
+[debug] [2026-06-27T14:12:16.182Z] ----------------------------------------------------------------------
+[debug] [2026-06-27T14:12:16.185Z] Command:       /opt/homebrew/Cellar/node/26.3.1/bin/node /Users/andrew/.npm/_npx/ba4f1959e38407b5/node_modules/.bin/firebase projects:create cloudchaser-q3es6krs --display-name CloudChaser
+[debug] [2026-06-27T14:12:16.185Z] CLI Version:   15.22.3
+[debug] [2026-06-27T14:12:16.185Z] Platform:      darwin
+[debug] [2026-06-27T14:12:16.185Z] Node Version:  v26.3.1
+[debug] [2026-06-27T14:12:16.185Z] Detected Agent: antigravity
+[debug] [2026-06-27T14:12:16.185Z] Time:          Sat Jun 27 2026 10:12:16 GMT-0400 (Eastern Daylight Time)
+[debug] [2026-06-27T14:12:16.185Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-06-27T14:12:16.327Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-06-27T14:12:16.327Z] > authorizing via signed-in user (digitalghosts269@gmail.com)
+[debug] [2026-06-27T14:12:16.330Z] Checked if tokens are valid: true, expires at: 1782572862678
+[debug] [2026-06-27T14:12:16.330Z] Checked if tokens are valid: true, expires at: 1782572862678
+[debug] [2026-06-27T14:12:16.332Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects [none]
+[debug] [2026-06-27T14:12:16.332Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"projectId":"cloudchaser-q3es6krs","name":"CloudChaser"}
+[debug] [2026-06-27T14:12:16.627Z] *** [apiv2] retrying https://cloudresourcemanager.googleapis.com/v1/projects without keep-alive after a premature close error
+[debug] [2026-06-27T14:12:17.629Z] *** [apiv2] Attempting the request again. Attempt number 2
+[debug] [2026-06-27T14:12:17.630Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects [none]
+[debug] [2026-06-27T14:12:17.630Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"projectId":"cloudchaser-q3es6krs","name":"CloudChaser"}
+[debug] [2026-06-27T14:12:17.888Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects 200
+[debug] [2026-06-27T14:12:17.888Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects {"name":"operations/create_project.global.8315488540124578691"}
+[debug] [2026-06-27T14:12:17.889Z] Checked if tokens are valid: true, expires at: 1782572862678
+[debug] [2026-06-27T14:12:17.889Z] Checked if tokens are valid: true, expires at: 1782572862678
+[debug] [2026-06-27T14:12:17.890Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8315488540124578691 [none]
+[debug] [2026-06-27T14:12:18.031Z] *** [apiv2] retrying https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8315488540124578691 without keep-alive after a premature close error
+[debug] [2026-06-27T14:12:19.033Z] *** [apiv2] Attempting the request again. Attempt number 2
+[debug] [2026-06-27T14:12:19.033Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8315488540124578691 [none]
+[debug] [2026-06-27T14:12:19.223Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8315488540124578691 200
+[debug] [2026-06-27T14:12:19.224Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/operations/create_project.global.8315488540124578691 {"name":"operations/create_project.global.8315488540124578691","metadata":{"@type":"type.googleapis.com/google.cloudresourcemanager.v1.ProjectCreationStatus","ready":true},"done":true,"error":{"code":8,"message":"The project cannot be created because you have exceeded your allotted project quota.","details":[{"@type":"type.googleapis.com/google.rpc.QuotaFailure","violations":[{"description":"The project cannot be created because you have exceeded your allotted project quota."}]}]}}
+[debug] [2026-06-27T14:12:19.225Z] FirebaseError: The project cannot be created because you have exceeded your allotted project quota.
+    at OperationPoller.poll (/Users/andrew/.npm/_npx/ba4f1959e38407b5/node_modules/firebase-tools/lib/operation-poller.js:25:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async createCloudProject (/Users/andrew/.npm/_npx/ba4f1959e38407b5/node_modules/firebase-tools/lib/management/projects.js:237:29)
+    at async createFirebaseProjectAndLog (/Users/andrew/.npm/_npx/ba4f1959e38407b5/node_modules/firebase-tools/lib/management/projects.js:102:9)
+[error] 
+[error] Error: Failed to create project. See firebase-debug.log for more info.
