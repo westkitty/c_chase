@@ -1,0 +1,64 @@
+{
+  "git_state": {
+    "available": true,
+    "branch": "main",
+    "dirty": true,
+    "head": "868c7cb909e1b550ec35584dadb76c1d830494ce",
+    "head_subject": "Rebuild level layouts with vertical towers, water chasms, boiler labyrinths, scaffold arenas, and dual transit lanes",
+    "is_repo": true,
+    "remote_url": "git@github.com:westkitty/c_chase.git",
+    "repo_root": "/Users/andrew/cloud_chaser",
+    "staged_count": 0,
+    "tracked_modified_count": 0,
+    "untracked_count": 1
+  },
+  "identity": {
+    "name": "cloud_chaser",
+    "path": "/Users/andrew/cloud_chaser"
+  },
+  "project_type": {
+    "confidence": 0.5,
+    "evidence": [
+      "Found index.html"
+    ],
+    "purpose": "Purpose could not be inferred confidently from filesystem signals.",
+    "type": "static_html"
+  },
+  "recommended_next_actions": [
+    "Inspect the current uncommitted Git changes before making new edits.",
+    "Back up or review fragile configuration files before any risky changes.",
+    "Read `.resurrection/project_report.md` and make one bounded change at a time.",
+    "Review the generated handoff before changing code.",
+    "Review the generated handoff before changing code."
+  ],
+  "scan_timestamp": "2026-06-27T19:19:12+00:00",
+  "scanner_version": "1.1.0",
+  "signature": {
+    "git_dirty": {
+      "dirty": true,
+      "staged_count": 0,
+      "tracked_modified_count": 0,
+      "untracked_count": 1
+    },
+    "git_head": "868c7cb909e1b550ec35584dadb76c1d830494ce",
+    "project_type": "static_html",
+    "scanner_version": "1.1.0",
+    "watched_files": {
+      "cloud_chaser_seattle_remastered_final/index.html": {
+        "mtime_ns": 1782570887000000000,
+        "sha256": "2ef11781bac526bc2b2d8d664ba91bbbfce96b7b9dbc1c336916b7130f1fe145",
+        "size": 2609
+      },
+      "cloud_chaser_seattle_remastered_final/references/uploaded_visual_simplification_pass/README.md": {
+        "mtime_ns": 1782503461000000000,
+        "sha256": "5abc08d35c9a334f854b4480e397f9d620b0e78e76ece64532a5468feb2cd623",
+        "size": 1373
+      },
+      "index.html": {
+        "mtime_ns": 1782578206238244902,
+        "sha256": "f9ac14cd07a8b376ed4996d3579cfe65cf4e0e6894c60cd7b58f89504dad09dd",
+        "size": 473
+      }
+    }
+  }
+}

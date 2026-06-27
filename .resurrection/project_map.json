@@ -1,0 +1,46 @@
+{
+  "commands": [],
+  "duplicate_candidates": [
+    "cloud_chaser_seattle_remastered_final",
+    "sibling-near-duplicate: cloud_chaser.backup-20260627-122639",
+    "sibling-near-duplicate: cloud_chaser.backup-20260627-122926"
+  ],
+  "fragile_files": [
+    "cloud_chaser_seattle_remastered_final/references/uploaded_visual_simplification_pass/README.md"
+  ],
+  "git_state": {
+    "available": true,
+    "branch": "main",
+    "dirty": true,
+    "head": "868c7cb909e1b550ec35584dadb76c1d830494ce",
+    "head_subject": "Rebuild level layouts with vertical towers, water chasms, boiler labyrinths, scaffold arenas, and dual transit lanes",
+    "is_repo": true,
+    "remote_url": "git@github.com:westkitty/c_chase.git",
+    "repo_root": "/Users/andrew/cloud_chaser",
+    "staged_count": 0,
+    "tracked_modified_count": 0,
+    "untracked_count": 1
+  },
+  "identity": {
+    "name": "cloud_chaser",
+    "path": "/Users/andrew/cloud_chaser"
+  },
+  "project_type": {
+    "confidence": 0.5,
+    "evidence": [
+      "Found index.html"
+    ],
+    "purpose": "Purpose could not be inferred confidently from filesystem signals.",
+    "type": "static_html"
+  },
+  "recommended_next_actions": [
+    "Inspect the current uncommitted Git changes before making new edits.",
+    "Back up or review fragile configuration files before any risky changes.",
+    "Read `.resurrection/project_report.md` and make one bounded change at a time.",
+    "Review the generated handoff before changing code.",
+    "Review the generated handoff before changing code."
+  ],
+  "scan_timestamp": "2026-06-27T19:19:12+00:00",
+  "scanner_version": "1.1.0",
+  "secret_risks": []
+}

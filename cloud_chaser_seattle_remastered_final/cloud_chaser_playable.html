@@ -711,6 +711,7 @@
   let platforms = [], ledges = [], allSolids = [], springs = [], pickups = [], powerUps = [], trickGates = [], checkpoints = [], hazards = [], cloudCannons = [], secretCaches = [], stamps = [], redClouds = [], updrafts = [], dashPanels = [], switchBlocks = [], lostClouds = [], fallingBodies = [], goal = {x:0,y:0,w:92,h:140};
 
   let settings = loadSettings();
+  let screenFlashAlpha = 0;
   let state, p, cam, storm, levelIndex = 0, levelName = '', levelWorld = '', levelSubtitle = '', levelTheme = 'rooftop', worldMaxX = 4500, levelBalance = {}, totalScore = 0, last = 0, fx = [], motes = [], cloudBlasts = [], vfxBursts = [], audioCtx = null, soundOn = settings.sound !== false, assistMode = getStoredNumber('cloudChaserAssist', 0) === 1, bestScore = Math.max(getStoredNumber('cloudChaserBest', 0), getStoredNumber('capStrikerBest', 0)), lastState = 'title';
   let unlockedLevel = Math.min(LEVELS.length - 1, Math.max(0, getStoredNumber('cloudChaserUnlockedLevel', 0)));
   let selectedLevel = Math.min(unlockedLevel, getStoredNumber('cloudChaserSelectedLevel', 0));
@@ -942,7 +943,7 @@
 
     goal = {...level.goal}; cam = {x:0, vx:0, shake:0}; storm = {x:level.stormStartX ?? CFG.stormStartX, pulse:0, damageCooldown:0}; fx = []; motes=[]; cloudBlasts=[]; vfxBursts=[]; lostClouds=[]; currentRunSamples=[]; currentInputReplay=[]; lastReplayBits=""; replayFrame=0; ghostRun = loadGhost(index);
     hazards = hazards.map((h,i)=>({...h, variant:h.kind==='drone' ? ['sine','swoop','zig'][i%3] : h.kind==='barricade' && i%2 ? 'hopper' : 'solid', near:false}));
-    p = {x:level.spawn.x-58,y:level.spawn.y,w:27,h:48,vx:0,vy:0,face:1,onGround:false,coyote:0,jumpBuf:0,jumpsLeft:CFG.doubleJumps,health:practiceMode ? 4 : 3,inv:0,shield:0,starT:0,featherT:0,shoesT:0,feverT:0,switchT:0,scoutT:0,attack:0,struck:false,dashFlash:0,gust:CFG.gustStart,rush:0,chain:0,chainT:0,maxChain:0,nearMisses:0,airT:0,introT:2.2,vanT:CFG.vanIntroTime,bonusT:0,caps:0,bonusCaps:0,stamps:0,redClouds:0,bonusStars:0,flask:0,routeMedal:false,cacheReveals:0,perfect:true,reserve:null,score:0,combo:0,comboT:0,time:level.time,levelTime:level.time,targetCaps:level.targetCaps,animT:0,winFlash:0,prevY:level.spawn.y,fallingVy:0,spawnX:level.spawn.x,spawnY:level.spawn.y,rank:'',finishTime:0,ghostSampleT:0,tutorialIndex:0,damageTaken:0,deaths:0,stormCatches:0,checkpointUses:0,routeFrames:0,highRouteFrames:0,lowRouteFrames:0,bossHits:0,medalBlockers:[],scaleX:1,scaleY:1};
+    p = {x:level.spawn.x-58,y:level.spawn.y,w:27,h:48,vx:0,vy:0,face:1,onGround:false,coyote:0,jumpBuf:0,jumpsLeft:CFG.doubleJumps,health:practiceMode ? 4 : 3,inv:0,shield:0,starT:0,featherT:0,shoesT:0,feverT:0,switchT:0,scoutT:0,attack:0,struck:false,dashFlash:0,gust:CFG.gustStart,rush:0,chain:0,chainT:0,maxChain:0,nearMisses:0,airT:0,introT:2.2,vanT:CFG.vanIntroTime,bonusT:0,caps:0,bonusCaps:0,stamps:0,redClouds:0,bonusStars:0,flask:0,routeMedal:false,cacheReveals:0,perfect:true,reserve:null,score:0,combo:0,comboT:0,time:level.time,levelTime:level.time,targetCaps:level.targetCaps,animT:0,winFlash:0,prevY:level.spawn.y,fallingVy:0,spawnX:level.spawn.x,spawnY:level.spawn.y,rank:'',finishTime:0,ghostSampleT:0,tutorialIndex:0,damageTaken:0,deaths:0,stormCatches:0,checkpointUses:0,routeFrames:0,highRouteFrames:0,lowRouteFrames:0,bossHits:0,medalBlockers:[],scaleX:1,scaleY:1,scaleVx:0,scaleVy:0};
     spawnLevelBirds();
     state = nextState;
   }
@@ -1193,6 +1194,24 @@
     gain.gain.exponentialRampToValueAtTime(.0008, audioCtx.currentTime + dur);
     osc.start(); osc.stop(audioCtx.currentTime + dur);
   }
+  function playSplashSound(){
+    if(!soundOn || !audioCtx) return;
+    ensureAudio();
+    const dur = 0.5;
+    for(let i=0; i<3; i++){
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.value = 180 + Math.random() * 220;
+      gain.gain.value = 0.015;
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur * (0.6 + Math.random()*0.4));
+      osc.start();
+      osc.stop(audioCtx.currentTime + dur);
+    }
+  }
   function playMusicNote(freq, dur=.09, gainLevel=.004, type='triangle'){
     if(!audioCtx || !settings.music || !soundOn) return;
     const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
@@ -1325,6 +1344,10 @@
           if (dist < 400) {
             cutoff = Math.max(800, 20000 * (dist / 400));
           }
+        }
+        // Low-health danger muffling — overrides storm cutoff
+        if (p && p.health === 1) {
+          cutoff = Math.min(cutoff, 600);
         }
         musicFilterNode.frequency.setTargetAtTime(cutoff, audioCtx.currentTime, 0.08);
       }
@@ -1500,15 +1523,36 @@
             p.vy = CFG.jumpVel * 0.75;
             p.onGround = false;
             p.jumpsLeft = CFG.doubleJumps;
-            p.scaleX = 1.28; p.scaleY = 0.72; // bounce squash!
+            p.scaleX = 1.28; p.scaleY = 0.72; p.scaleVx = 6.5; p.scaleVy = -6.5; // bounce squash!
             emit(p.x+p.w/2, p.y+p.h, '#fff1df', 12, 3.8);
             shockwaves.push({x: p.x + p.w/2, y: p.y + p.h, radius: 4, speed: 250, life: 0.4, maxLife: 0.4, color: 'rgba(255, 211, 110, 0.72)', alpha: 0.72});
             playTone('jump', p.x);
             pop('BOUNCE!', p.x-10, p.y-8, '#ffd36e');
           } else {
             if(!p.onGround){
-              p.scaleX = 1.22; p.scaleY = 0.8;
+              p.scaleX = 1.22; p.scaleY = 0.8; p.scaleVx = 5.0; p.scaleVy = -5.0;
               emit(p.x+p.w/2, p.y+p.h, '#fff4d888', 8, 2.0);
+              // Landing shockwave dust
+              for(let i=0; i<8; i++){
+                fx.push({
+                  x: p.x + p.w/2,
+                  y: p.y + p.h,
+                  vx: -2.5 - Math.random() * 4,
+                  vy: -0.4 - Math.random() * 1.2,
+                  life: 0.35 + Math.random() * 0.25,
+                  color: '#fff4d8aa',
+                  r: 2 + Math.random() * 2.5
+                });
+                fx.push({
+                  x: p.x + p.w/2,
+                  y: p.y + p.h,
+                  vx: 2.5 + Math.random() * 4,
+                  vy: -0.4 - Math.random() * 1.2,
+                  life: 0.35 + Math.random() * 0.25,
+                  color: '#fff4d8aa',
+                  r: 2 + Math.random() * 2.5
+                });
+              }
             }
             p.vy=0; p.onGround=true; p.coyote=CFG.coyote; p.jumpsLeft=CFG.doubleJumps;
           }
@@ -1527,7 +1571,13 @@
         }
       }
     }
-    if(p.y > H+120) damage(['playground','center'].includes(levelTheme) ? 'fell off the sky deck' : 'fell into the alley', true);
+    if(p.y > H+120) {
+      if(levelTheme === 'waterfront'){
+        damage('splash! fell into the water', true);
+      } else {
+        damage(['playground','center'].includes(levelTheme) ? 'fell off the sky deck' : 'fell into the alley', true);
+      }
+    }
   }
 
   function damage(reason, respawn=false){
@@ -1538,18 +1588,37 @@
     if(!respawn && tryAutoFlask(reason)) return;
     if(!respawn && p.shield > 0){
       p.shield = 0; p.inv = .55; p.combo=0; p.chain=0; p.chainT=0; cam.shake=.20;
+      screenFlashAlpha = 0.18;
       emit(p.x+p.w/2,p.y+20,'#5fd0e8',28,6); pop('SHIELD BREAK', p.x-24, p.y-16, '#5fd0e8'); playTone('hit');
       return;
     }
     if(!respawn) scatterLostClouds(Math.min(5, Math.max(2, p.caps)));
     p.perfect = false;
     p.combo=0; p.chain=0; p.chainT=0; p.health--; p.inv=(respawn ? CFG.respawnInvuln : CFG.hurtInvuln) * (assistMode ? 1.45 : 1); p.attack=0; p.gust=Math.max(0,p.gust-(assistMode ? 8 : 18)); p.vx=-p.face*5; p.vy=-8; cam.shake=.32; emit(p.x+p.w/2,p.y+22,'#d95f64',18,5); pop(reason, p.x, p.y-10, '#d95f64'); playTone('hit', p.x);
+    screenFlashAlpha = 0.24;
+    p.scaleX = 0.62; p.scaleY = 1.38; p.scaleVx = -8.5; p.scaleVy = 8.5;
+    
+    if (reason.includes('water') || reason.includes('splash')) {
+      playSplashSound();
+      for (let i = 0; i < 28; i++) {
+        fx.push({
+          x: p.x + p.w/2 + (Math.random() - 0.5) * 48,
+          y: H - 15,
+          vx: (Math.random() - 0.5) * 8,
+          vy: -6 - Math.random() * 10,
+          life: 0.55 + Math.random() * 0.45,
+          color: 'rgba(95, 208, 232, 0.85)',
+          r: 2.5 + Math.random() * 4.5
+        });
+      }
+    }
     if(respawn && p.health>0) respawnPlayer();
     if(p.health<=0){
       p.deaths = (p.deaths || 0) + 1;
       state='fail';
       timeScale = 0.15;
       deathSlowMoT = 0.72;
+      screenFlashAlpha = 0.35;
     }
   }
 
@@ -1653,6 +1722,19 @@
     if(p.onGround && Math.abs(p.vx) > 3.0 && Math.random() < 0.15) {
       emit(p.x + p.w/2 - p.face * 12, p.y + p.h, '#fff4d866', 2, 1.2);
     }
+    if(Math.abs(p.vx) > 3.8) {
+      if (Math.random() < 0.38) {
+        fx.push({
+          x: p.x + p.w/2 - p.face * 6 + (Math.random() - 0.5) * 8,
+          y: p.y + p.h/2 + (Math.random() - 0.5) * 16,
+          vx: -p.vx * 0.25 + (Math.random() - 0.5) * 0.6,
+          vy: (Math.random() - 0.5) * 0.8,
+          life: 0.24 + Math.random() * 0.16,
+          color: '#5fd0e866',
+          r: 1.5 + Math.random() * 1.5
+        });
+      }
+    }
     const isSkidding = p.onGround && ax !== 0 && Math.sign(p.vx) !== Math.sign(ax) && Math.abs(p.vx) > 1.2;
     if (isSkidding && Math.random() < 0.35) {
       emit(p.x + p.w/2, p.y + p.h, '#fff4d888', 3, 1.5);
@@ -1665,7 +1747,7 @@
       p.vy = fromGround ? CFG.jumpVel : CFG.doubleJumpVel;
       p.onGround=false; p.coyote=0; p.jumpBuf=0;
       if(!fromGround) p.jumpsLeft--;
-      p.scaleX = 0.76; p.scaleY = 1.22;
+      p.scaleX = 0.76; p.scaleY = 1.22; p.scaleVx = -6.0; p.scaleVy = 6.0;
       emit(p.x+p.w/2,p.y+p.h, fromGround ? '#68c7e8' : '#f2c165', fromGround ? 10 : 18, fromGround ? 3 : 4.6);
       emit(p.x+p.w/2,p.y+p.h, '#fff4d888', 8, 2.0);
       if (!fromGround) {
@@ -1758,10 +1840,14 @@
   function tickPlayerTimers(dt){
     for(const timer of PLAYER_TIMERS) p[timer] = Math.max(0, p[timer] - dt);
     p.animT += dt;
-    if (p.scaleX !== undefined) {
-      p.scaleX += (1 - p.scaleX) * Math.min(1, dt * 10);
-      p.scaleY += (1 - p.scaleY) * Math.min(1, dt * 10);
-    }
+    const kScale = 220;
+    const dScale = 14;
+    const accScaleX = -kScale * (p.scaleX - 1.0) - dScale * p.scaleVx;
+    p.scaleVx += accScaleX * dt;
+    p.scaleX += p.scaleVx * dt;
+    const accScaleY = -kScale * (p.scaleY - 1.0) - dScale * p.scaleVy;
+    p.scaleVy += accScaleY * dt;
+    p.scaleY += p.scaleVy * dt;
   }
 
   function moveCameraToward(targetX, dt){
@@ -1783,7 +1869,7 @@
     updateHazards(dt);
     checkNearMisses();
     checkStrike();
-    checkPickups();
+    checkPickups(dt);
     checkPowerUps();
     checkStamps();
     checkRedClouds();
@@ -1899,6 +1985,11 @@
         h.phase += dt * (h.hp <= CFG.bossRageHp ? 2.55 : 1.65);
         if (h.hp <= CFG.bossRageHp && Math.random() < 0.15) {
           emit(h.x + (Math.random() - 0.5) * 40, h.y + (Math.random() - 0.5) * 40, '#df5774', 2, 2.2);
+        }
+        // Rage shockwave rings – one per phase-cycle crossing in rage
+        if (h.hp <= CFG.bossRageHp && Math.floor(h.phase * 0.85) !== Math.floor((h.phase - dt * (h.hp <= CFG.bossRageHp ? 2.55 : 1.65)) * 0.85)) {
+          shockwaves.push({x: h.x, y: h.y, radius: 10, speed: 220, life: 0.65, maxLife: 0.65, color: 'rgba(223, 87, 116, 0.82)', alpha: 0.82});
+          shockwaves.push({x: h.x, y: h.y, radius: 6, speed: 140, life: 0.50, maxLife: 0.50, color: 'rgba(255, 211, 110, 0.55)', alpha: 0.55});
         }
         h.attackT = Math.max(0, (h.attackT || CFG.bossSweepCooldown) - dt);
         h.attackWarn = Math.max(0, (h.attackWarn || 0) - dt);
@@ -2228,7 +2319,7 @@
   function defeatEnemy(h, box, label){
     hitStopTimer = 0.06;
     h.alive=false; p.vy=CFG.stompBounce; p.coyote=0; p.jumpsLeft=CFG.doubleJumps; p.gust=Math.min(CFG.gustMax,p.gust+CFG.gustTrickGain); p.combo++; p.comboT=CFG.comboWindow; p.score += 150 * p.combo; cam.shake=.14;
-    p.scaleX = 1.38; p.scaleY = 0.62;
+    p.scaleX = 1.38; p.scaleY = 0.62; p.scaleVx = 8.5; p.scaleVy = -8.5;
     emit(box.x+box.w/2, box.y+box.h/2, '#68c7e8', 24, 5.4);
     shockwaves.push({x: box.x + box.w/2, y: box.y + box.h/2, radius: 8, speed: 300, life: 0.42, maxLife: 0.42, color: 'rgba(95, 208, 232, 0.8)', alpha: 0.8});
     emit(p.x+p.w/2, p.y+p.h, '#f2c165', 10, 3.5);
@@ -2243,7 +2334,7 @@
     p.vy = CFG.stompBounce;
     p.coyote = 0;
     p.jumpsLeft = CFG.doubleJumps;
-    p.scaleX = 1.45; p.scaleY = 0.55;
+    p.scaleX = 1.45; p.scaleY = 0.55; p.scaleVx = 10.0; p.scaleVy = -10.0;
     shockwaves.push({x: box.x + box.w/2, y: box.y + box.h/2, radius: 8, speed: 300, life: 0.42, maxLife: 0.42, color: 'rgba(95, 208, 232, 0.8)', alpha: 0.8});
     p.gust = Math.min(CFG.gustMax, p.gust + CFG.gustTrickGain);
     p.combo++;
@@ -2288,10 +2379,22 @@
     }
   }
 
-  function checkPickups(){
+  function checkPickups(dt=0.016){
     for(const c of pickups){
       if(c.got) continue;
       c.bob += .06;
+      if (p) {
+        const dx = (p.x + p.w / 2) - c.x;
+        const dy = (p.y + p.h / 2) - c.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const magnetRange = 112;
+        if (dist < magnetRange) {
+          const speed = 320;
+          const pullForce = (1.0 - dist / magnetRange) * speed * dt;
+          c.x += (dx / dist) * pullForce * 60;
+          c.y += (dy / dist) * pullForce * 60;
+        }
+      }
       if(rects(p,{x:c.x-18,y:c.y-16,w:36,h:30})){
         c.got=true; p.caps++; if(c.bonus) p.bonusCaps++;
         p.score += c.bonus ? 250 : 100; p.time += (c.bonus ? 6 : 4) + (assistMode ? 1 : 0);
@@ -2369,6 +2472,17 @@
     cloudBlasts=cloudBlasts.filter(b=>b.life>0);
     vfxBursts.forEach(v=>{ v.life-=dt; v.y-=dt*10; v.scale += dt*.55; v.rot += dt*.45*v.flip; });
     vfxBursts=vfxBursts.filter(v=>v.life>0);
+    motes.forEach(m => {
+      m.life -= dt;
+      if (m.vy === undefined || m.vy === -24) {
+        m.vy = -50 - Math.random() * 30;
+        m.vx = (Math.random() - 0.5) * 35;
+      }
+      m.x += m.vx * dt;
+      m.y += m.vy * dt;
+      m.vy += 22 * dt; // slow down rise
+      m.vx *= Math.pow(0.96, dt * 60);
+    });
     motes=motes.filter(m=>m.life>0);
 
     // Update active wind, birds, leaves, landmarks, shockwaves, banners, and death slow-mo
@@ -2432,7 +2546,27 @@
     ctx.clearRect(0,0,W,H);
     const shake = (settings.screenShake && !settings.reducedMotion && cam.shake) ? (Math.random()-.5)*cam.shake*18*settings.screenShake : 0;
     drawSky();
+    
+    let targetZoom = 1.25;
+    if (state === 'pause' || state === 'fail' || state === 'win' || state === 'title' || state === 'levelSelect') {
+      targetZoom = 1.0;
+    }
+    if (cam.zoom === undefined) cam.zoom = targetZoom;
+    cam.zoom += (targetZoom - cam.zoom) * Math.min(1.0, (dt || 0.016) * 10.0);
+    
     ctx.translate(Math.round(-cam.x+shake), 0);
+    
+    if (p && cam.zoom !== 1.0) {
+      if (cam.zoomY === undefined) cam.zoomY = p.y;
+      cam.zoomY += (p.y - cam.zoomY) * Math.min(1.0, (dt || 0.016) * 6.0);
+      
+      const zoomX = p.x + p.w / 2;
+      const zoomY = cam.zoomY + p.h / 2;
+      ctx.translate(zoomX, zoomY);
+      ctx.scale(cam.zoom, cam.zoom);
+      ctx.translate(-zoomX, -zoomY);
+    }
+    
     drawWorldLayers();
     ctx.restore();
     drawWarnings(); drawHud(); drawObjectiveRibbon(); drawTutorialCoach(); drawDebugOverlay(); drawOverlay(); drawPolishBanners(); drawPostFX(dt || 0.016);
@@ -3789,13 +3923,19 @@
       if (c.active) {
         ctx.save();
         ctx.translate(c.x + 22, c.y - 74);
-        const wave = Math.sin(performance.now() / 150) * 6;
         ctx.fillStyle = '#5fd0e8';
         ctx.beginPath();
         ctx.moveTo(0, 0);
-        ctx.lineTo(-24, 4 + wave/2);
-        ctx.lineTo(-24, 14 + wave/2);
-        ctx.lineTo(0, 10);
+        for (let xOffset = 0; xOffset >= -24; xOffset -= 4) {
+          const wave = Math.sin((performance.now() / 150) + xOffset / 6) * 5;
+          ctx.lineTo(xOffset, xOffset * 0.15 + wave);
+        }
+        const waveEnd = Math.sin((performance.now() / 150) - 4.0) * 5;
+        ctx.lineTo(-24, 12 + waveEnd);
+        for (let xOffset = -24; xOffset <= 0; xOffset += 4) {
+          const wave = Math.sin((performance.now() / 150) + xOffset / 6) * 5;
+          ctx.lineTo(xOffset, 10 + xOffset * 0.15 + wave);
+        }
         ctx.closePath();
         ctx.fill();
         ctx.restore();
@@ -4938,6 +5078,43 @@ function drawHudMeter(x,y,w,value,color){
     ctx.fillStyle='#fff4d8'; ctx.font='900 10px monospace'; ctx.fillText('CLOUD-O-VISION 16  |  NO MODE-7 WAS HARMED',20,H-16);
     ctx.fillStyle='#0b0814aa'; ctx.fillRect(W-194,H-30,184,20);
     ctx.fillStyle='#ffd36e'; ctx.fillText('CLOUD CHASER',W-180,H-16);
+
+    // Screen flash (damage, death)
+    if (screenFlashAlpha > 0) {
+      screenFlashAlpha = Math.max(0, screenFlashAlpha - (dt || 0.016) * 4.0);
+      ctx.save();
+      ctx.globalAlpha = screenFlashAlpha;
+      ctx.fillStyle = '#d95f64';
+      ctx.fillRect(0, 0, W, H);
+      ctx.restore();
+    }
+
+    // CRT curved corner vignette
+    if (settings.scanlines) {
+      ctx.save();
+      const r = 72;
+      ctx.beginPath();
+      ctx.moveTo(r, 0); ctx.lineTo(W - r, 0);
+      ctx.quadraticCurveTo(W, 0, W, r);
+      ctx.lineTo(W, H - r);
+      ctx.quadraticCurveTo(W, H, W - r, H);
+      ctx.lineTo(r, H);
+      ctx.quadraticCurveTo(0, H, 0, H - r);
+      ctx.lineTo(0, r);
+      ctx.quadraticCurveTo(0, 0, r, 0);
+      ctx.closePath();
+      ctx.strokeStyle = 'rgba(0,0,0,0)';
+      ctx.globalAlpha = 1.0;
+      // Dark corners using clipped fill-outside trick
+      const cornerVig = ctx.createRadialGradient(W/2, H/2, W * 0.32, W/2, H/2, W * 0.85);
+      cornerVig.addColorStop(0, 'rgba(0,0,0,0)');
+      cornerVig.addColorStop(0.7, 'rgba(0,0,0,0)');
+      cornerVig.addColorStop(1, 'rgba(0,0,0,0.78)');
+      ctx.fillStyle = cornerVig;
+      ctx.fillRect(0, 0, W, H);
+      ctx.restore();
+    }
+
     ctx.restore();
   }
 
