@@ -717,7 +717,13 @@
   }
   function clearPressedInputs(){ pressed.clear(); padPressed.clear(); }
   function syncGamepadInput(){
-    const pads = navigator.getGamepads ? Array.from(navigator.getGamepads()).filter(Boolean) : [];
+    let pads = [];
+    if (navigator.getGamepads) {
+      try {
+        const raw = navigator.getGamepads();
+        if (raw) pads = Array.from(raw).filter(Boolean);
+      } catch (ignored) {}
+    }
     const g = pads[0];
     const next = Object.fromEntries(GAMEPAD_ACTIONS.map(action => [action, false]));
     if(g){
@@ -903,6 +909,13 @@
     updrafts = generateUpdrafts(level);
     dashPanels = generateDashPanels(level);
     switchBlocks = generateSwitchBlocks(level);
+    
+    // Clear dynamic polish lists to prevent memory leaks and state leakage
+    shockwaves.length = 0;
+    fallingLeaves.length = 0;
+    ambientBirds.length = 0;
+    windParticles.length = 0;
+
     goal = {...level.goal}; cam = {x:0, vx:0, shake:0}; storm = {x:level.stormStartX ?? CFG.stormStartX, pulse:0, damageCooldown:0}; fx = []; motes=[]; cloudBlasts=[]; vfxBursts=[]; lostClouds=[]; currentRunSamples=[]; currentInputReplay=[]; lastReplayBits=""; replayFrame=0; ghostRun = loadGhost(index);
     hazards = hazards.map((h,i)=>({...h, variant:h.kind==='drone' ? ['sine','swoop','zig'][i%3] : h.kind==='barricade' && i%2 ? 'hopper' : 'solid', near:false}));
     p = {x:level.spawn.x-58,y:level.spawn.y,w:27,h:48,vx:0,vy:0,face:1,onGround:false,coyote:0,jumpBuf:0,jumpsLeft:CFG.doubleJumps,health:practiceMode ? 4 : 3,inv:0,shield:0,starT:0,featherT:0,shoesT:0,feverT:0,switchT:0,scoutT:0,attack:0,struck:false,dashFlash:0,gust:CFG.gustStart,rush:0,chain:0,chainT:0,maxChain:0,nearMisses:0,airT:0,introT:2.2,vanT:CFG.vanIntroTime,bonusT:0,caps:0,bonusCaps:0,stamps:0,redClouds:0,bonusStars:0,flask:0,routeMedal:false,cacheReveals:0,perfect:true,reserve:null,score:0,combo:0,comboT:0,time:level.time,levelTime:level.time,targetCaps:level.targetCaps,animT:0,winFlash:0,prevY:level.spawn.y,fallingVy:0,spawnX:level.spawn.x,spawnY:level.spawn.y,rank:'',finishTime:0,ghostSampleT:0,tutorialIndex:0,damageTaken:0,deaths:0,stormCatches:0,checkpointUses:0,routeFrames:0,highRouteFrames:0,lowRouteFrames:0,bossHits:0,medalBlockers:[],scaleX:1,scaleY:1};
@@ -1085,12 +1098,31 @@
   function ensureAudio(){
     const AudioCtor = window.AudioContext || window.webkitAudioContext;
     if(!AudioCtor){ soundOn = false; return false; }
-    if(!audioCtx) audioCtx = new AudioCtor();
+    if(!audioCtx) {
+      audioCtx = new AudioCtor();
+      Object.values(audioCache).forEach(audio => {
+        try {
+          if (!audio.hasSourceNodeConnected) {
+            const source = audioCtx.createMediaElementSource(audio);
+            if (!musicFilterNode) {
+              musicFilterNode = audioCtx.createBiquadFilter();
+              musicFilterNode.type = 'lowpass';
+              musicFilterNode.frequency.value = 20000;
+              musicFilterNode.connect(audioCtx.destination);
+            }
+            source.connect(musicFilterNode);
+            audio.hasSourceNodeConnected = true;
+          }
+        } catch (ignored) {}
+      });
+    }
     if(audioCtx.state === 'suspended') audioCtx.resume();
     return true;
   }
   function playTone(kind, x = null){
-    if(!soundOn || !audioCtx) return;
+    if(!soundOn) return;
+    if(!audioCtx) ensureAudio();
+    if(!audioCtx) return;
     const arp = {
       collect:[660,880,1320], checkpoint:[523,659,784,1047], win:[523,659,784,1047,1319],
       rush:[784,988,1175], oneup:[660,880,990,1320]
@@ -1118,6 +1150,18 @@
     }
     gain.gain.setValueAtTime(.014, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + dur);
+    osc.start(); osc.stop(audioCtx.currentTime + dur);
+  }
+  function playToneNoise(freq, dur, type='sawtooth', gainLevel=.008){
+    if(!soundOn) return;
+    if(!audioCtx) ensureAudio();
+    if(!audioCtx || !settings.music) return;
+    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+    osc.type = type; osc.frequency.value = freq;
+    gain.gain.value = gainLevel;
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    gain.gain.setValueAtTime(gainLevel, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(.0008, audioCtx.currentTime + dur);
     osc.start(); osc.stop(audioCtx.currentTime + dur);
   }
   function playMusicNote(freq, dur=.09, gainLevel=.004, type='triangle'){
@@ -1166,6 +1210,7 @@
             musicFilterNode.connect(audioCtx.destination);
           }
           source.connect(musicFilterNode);
+          newAudio.hasSourceNodeConnected = true;
         } catch (ignored) {}
       }
     }
@@ -1352,6 +1397,27 @@
       currentAudio.play().catch(err => {});
     }
     if(state !== 'play') startPlay(); else pressed.add('KeyX');
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (state === 'play') {
+        state = 'pause';
+      }
+      if (audioCtx && audioCtx.state === 'running') {
+        audioCtx.suspend();
+      }
+      if (currentAudio && !currentAudio.paused) {
+        currentAudio.pause();
+      }
+    } else {
+      if (settings.sound && audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      if (state === 'play' && currentAudio && currentAudio.paused) {
+        currentAudio.play().catch(() => {});
+      }
+      last = performance.now();
+    }
   });
   document.querySelectorAll('.touch-btn').forEach(btn => {
     const code = btn.dataset.code;
@@ -1585,29 +1651,6 @@
     p.routeFrames = (p.routeFrames || 0) + 1;
     if(p.y < 330) p.highRouteFrames = (p.highRouteFrames || 0) + 1;
     if(p.y > 430) p.lowRouteFrames = (p.lowRouteFrames || 0) + 1;
-
-    // Update active wind, birds, leaves, landmarks, and shockwaves
-    updateWind(dt);
-    updateBirds(dt);
-    updateLeaves(dt);
-    const activeLandmark = LANDMARKS.find(l => p.x > l.x && p.x < l.x + 300);
-    if (activeLandmark) {
-      if (lastLandmark !== activeLandmark.name) {
-        lastLandmark = activeLandmark.name;
-        landmarkT = 2.5;
-      }
-    }
-    if (landmarkT > 0) landmarkT = Math.max(0, landmarkT - dt);
-    shockwaves.forEach(s => {
-      s.radius += dt * s.speed;
-      s.life -= dt;
-    });
-    shockwaves = shockwaves.filter(s => s.life > 0);
-    if (powerupBannerT > 0) powerupBannerT = Math.max(0, powerupBannerT - dt);
-    if (deathSlowMoT > 0) {
-      deathSlowMoT = Math.max(0, deathSlowMoT - dt / timeScale);
-      if (deathSlowMoT <= 0) timeScale = 1.0;
-    }
     
     // Store afterimage history
     if(!p.trailHistory) p.trailHistory = [];
@@ -2235,13 +2278,32 @@
     cloudBlasts=cloudBlasts.filter(b=>b.life>0);
     vfxBursts.forEach(v=>{ v.life-=dt; v.y-=dt*10; v.scale += dt*.55; v.rot += dt*.45*v.flip; });
     vfxBursts=vfxBursts.filter(v=>v.life>0);
-    motes.forEach(m=>{
-      m.life-=dt; m.y+=m.vy*dt; m.vy+=8*dt;
-      if (m.phase === undefined) m.phase = Math.random() * 100;
-      m.phase += dt * 4.5;
-      m.x += Math.sin(m.phase) * 0.45;
-    });
     motes=motes.filter(m=>m.life>0);
+
+    // Update active wind, birds, leaves, landmarks, shockwaves, banners, and death slow-mo
+    updateWind(dt);
+    updateBirds(dt);
+    updateLeaves(dt);
+    if (p) {
+      const activeLandmark = LANDMARKS.find(l => p.x > l.x && p.x < l.x + 300);
+      if (activeLandmark) {
+        if (lastLandmark !== activeLandmark.name) {
+          lastLandmark = activeLandmark.name;
+          landmarkT = 2.5;
+        }
+      }
+    }
+    if (landmarkT > 0) landmarkT = Math.max(0, landmarkT - dt);
+    shockwaves.forEach(s => {
+      s.radius += dt * s.speed;
+      s.life -= dt;
+    });
+    shockwaves = shockwaves.filter(s => s.life > 0);
+    if (powerupBannerT > 0) powerupBannerT = Math.max(0, powerupBannerT - dt);
+    if (deathSlowMoT > 0) {
+      deathSlowMoT = Math.max(0, deathSlowMoT - dt / timeScale);
+      if (deathSlowMoT <= 0) timeScale = 1.0;
+    }
   }
 
   let lastStateTracker = '';
