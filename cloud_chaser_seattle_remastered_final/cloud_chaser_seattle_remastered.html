@@ -1593,6 +1593,15 @@
     }
     if(!assetsReady()) return;
     if(state !== 'play') { updateFx(dt); return; }
+    // Phase 1: Level intro splash – show for full introT seconds before anything else
+    if(p.introT > 0){
+      p.introT = Math.max(0, p.introT - dt);
+      p.x = p.spawnX - 58; p.y = p.spawnY;
+      p.vx = 0; p.vy = 0; p.face = 1; p.onGround = true;
+      moveCameraToward(p.spawnX - 260, dt);
+      updateFx(dt); clearPressedInputs(); return;
+    }
+    // Phase 2: Van exit animation – plays immediately after splash clears
     if(p.vanT > 0){
       p.vanT = Math.max(0, p.vanT - dt);
       const t = 1 - p.vanT / CFG.vanIntroTime;
@@ -1602,9 +1611,7 @@
       p.y = p.spawnY;
       p.vx = 0; p.vy = 0; p.face = 1; p.onGround = true; p.coyote = CFG.coyote; p.prevY = p.y; p.fallingVy = 0; p.animT += dt;
       if(Math.floor(t*18) !== Math.floor((t-dt/CFG.vanIntroTime)*18)) emit(p.spawnX-76, p.spawnY+22, t>.35 ? '#fff4d8' : '#313040', 2, 1.8);
-      // Freeze introT while van is playing so splash only appears AFTER the van finishes
-      p.introT = 2.2;
-      if(p.vanT <= 0){ p.x = p.spawnX; p.introT = 2.2; pop('RUN!', p.x-8, p.y-20, '#ffd36e'); emit(p.spawnX-74, p.spawnY+20, '#fff4d8', 16, 3.4); playTone('checkpoint'); }
+      if(p.vanT <= 0){ p.x = p.spawnX; pop('RUN!', p.x-8, p.y-20, '#ffd36e'); emit(p.spawnX-74, p.spawnY+20, '#fff4d8', 16, 3.4); playTone('checkpoint'); }
       moveCameraToward(p.x - 260, dt);
       updateFx(dt); clearPressedInputs(); return;
     }
@@ -4538,7 +4545,8 @@ function drawHudMeter(x,y,w,value,color){
   }
   function drawSNESMessageCard(){
     if(!p) return;
-    if(p.introT > 0 && !(p.vanT > 0)){
+    // Show splash card during Phase 1 (introT > 0), hide during van and gameplay
+    if(p.introT > 0){
       const a=Math.min(1,p.introT/1.2);
       drawLevelIntroSplashBackdrop(a);
       ctx.save(); ctx.globalAlpha=a;
