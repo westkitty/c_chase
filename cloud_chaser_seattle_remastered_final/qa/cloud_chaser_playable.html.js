@@ -1070,7 +1070,8 @@
       return;
     }
     const table = {jump:[330,.045,'sine'], double:[520,.07,'triangle'], stomp:[180,.09,'sawtooth'], hit:[90,.14,'sawtooth'], strike:[430,.055,'square'], menu_tick:[880,.035,'triangle'], menu_confirm:[1047,.065,'sine'], 660:[660,.04,'square'], 880:[880,.04,'square'], 990:[990,.04,'triangle'], 988:[988,.04,'square'], 1047:[1047,.05,'triangle'], 1175:[1175,.04,'square'], 1319:[1319,.06,'triangle'], 1320:[1320,.04,'square'], 523:[523,.04,'triangle'], 659:[659,.04,'square'], 784:[784,.04,'square']};
-    const [freq,dur,type] = table[kind] || table.collect;
+    const tone = table[kind] || [220,.08,'sawtooth'];
+    const [freq,dur,type] = tone;
     const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
     osc.type = type; osc.frequency.value = freq; gain.gain.value = .014;
     let dest = audioCtx.destination;
