@@ -1160,7 +1160,7 @@
     const tone = table[kind] || [220,.08,'sawtooth'];
     const [freq,dur,type] = tone;
     const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-    osc.type = type; osc.frequency.value = freq; gain.gain.value = .014;
+    osc.type = type; osc.frequency.value = freq; gain.gain.value = .014; osc.connect(gain);
     let dest = audioCtx.destination;
     if (x !== null && audioCtx.createStereoPanner) {
       try {
