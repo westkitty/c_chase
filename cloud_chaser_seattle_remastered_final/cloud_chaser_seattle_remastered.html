@@ -690,8 +690,8 @@
     {world:'SEATTLE CENTER 2-1', casual:108, practiced:82, sRank:62, assist:128},
     {world:'WATERFRONT 3-1', casual:103, practiced:78, sRank:59, assist:124},
     {world:'GAS WORKS BONUS', casual:98, practiced:72, sRank:55, assist:118},
-    {world:'FREMONT BRIDGE 5-1', casual:112, practiced:86, sRank:66, assist:134},
-    {world:'MONORAIL FINALE', casual:116, practiced:90, sRank:70, assist:140}
+    {world:'FREMONT 4-B', casual:112, practiced:86, sRank:66, assist:134},
+    {world:'MONORAIL BONUS', casual:116, practiced:90, sRank:70, assist:140}
   ];
   const GAMEPAD_ACTIONS = Object.keys(DEFAULT_BINDINGS);
 
@@ -713,7 +713,7 @@
   let platforms = [], ledges = [], allSolids = [], springs = [], pickups = [], powerUps = [], trickGates = [], checkpoints = [], hazards = [], cloudCannons = [], secretCaches = [], stamps = [], redClouds = [], updrafts = [], dashPanels = [], switchBlocks = [], lostClouds = [], goal = {x:0,y:0,w:92,h:140};
 
   let settings = loadSettings();
-  let state, p, cam, storm, levelIndex = 0, levelName = '', levelWorld = '', levelSubtitle = '', levelTheme = 'rooftop', worldMaxX = 4500, levelBalance = {}, totalScore = 0, last = 0, fx = [], motes = [], cloudBlasts = [], vfxBursts = [], audioCtx = null, soundOn = settings.sound !== false, assistMode = getStoredNumber('cloudChaserAssist', 0) === 1, bestScore = getStoredNumber('capStrikerBest', 0), lastState = 'title';
+  let state, p, cam, storm, levelIndex = 0, levelName = '', levelWorld = '', levelSubtitle = '', levelTheme = 'rooftop', worldMaxX = 4500, levelBalance = {}, totalScore = 0, last = 0, fx = [], motes = [], cloudBlasts = [], vfxBursts = [], audioCtx = null, soundOn = settings.sound !== false, assistMode = getStoredNumber('cloudChaserAssist', 0) === 1, bestScore = Math.max(getStoredNumber('cloudChaserBest', 0), getStoredNumber('capStrikerBest', 0)), lastState = 'title';
   let unlockedLevel = Math.min(LEVELS.length - 1, Math.max(0, getStoredNumber('cloudChaserUnlockedLevel', 0)));
   let selectedLevel = Math.min(unlockedLevel, getStoredNumber('cloudChaserSelectedLevel', 0));
   let practiceMode = false, settingsCursor = 0, rebindingAction = null;
@@ -934,7 +934,7 @@
     updrafts = generateUpdrafts(level);
     dashPanels = generateDashPanels(level);
     switchBlocks = generateSwitchBlocks(level);
-    
+
     // Clear dynamic polish lists to prevent memory leaks and state leakage
     shockwaves.length = 0;
     fallingLeaves.length = 0;
@@ -1218,7 +1218,7 @@
     }
 
     const oldAudio = currentAudio;
-    
+
     // Get or create new Audio element
     let newAudio = audioCache[path];
     if (!newAudio) {
@@ -1250,7 +1250,7 @@
 
     let volNew = 0;
     let volOld = oldAudio ? oldAudio.volume : 0;
-    
+
     fadeInterval = setInterval(() => {
       let done = true;
       if (oldAudio && volOld > 0) {
@@ -1294,10 +1294,12 @@
     currentAudioPath = '';
   }
 
-  function getTrackForLevel(){
-    const n = Math.min(Math.max((levelIndex || 0) + 1, 1), 6);
+  function getTrackForLevel(index = levelIndex){
+    const n = Math.min(Math.max((Number.isFinite(index) ? index : 0) + 1, 1), 6);
     return `music/track_level${n}.mp3`;
   }
+  window.getTrackForLevel = getTrackForLevel;
+  window.__cloudChaserTrackForLevel = getTrackForLevel;
 
   function updateMusic(dt){
     if(!settings.music || !soundOn) {
@@ -1371,8 +1373,8 @@
     }
     if(!keys.has(e.code)) pressed.add(e.code); keys.add(e.code);
 
-    if(state === 'settings') { handleSettingsKey(e); return; }
-    if(state === 'select') { handleSelectKey(e); return; }
+    if(state === 'settings') { handleSettingsKey(e); clearPressedInputs(); return; }
+    if(state === 'select') { handleSelectKey(e); clearPressedInputs(); return; }
 
     if(actionPressed('options')) { lastState = state; state = 'settings'; return; }
     if(actionPressed('levelSelect') && (state === 'title' || state === 'pause' || state === 'levelclear')) { state = 'select'; practiceMode = false; return; }
@@ -1550,7 +1552,7 @@
     const stormDist = storm ? (p.x - storm.x) : 600;
     const proximity = Math.max(0, Math.min(1, (560 - stormDist) / 560));
     const spawnChance = 0.15 + proximity * 0.65;
-    
+
     if(Math.random() < spawnChance * (dt / 0.016)) {
       rainParticles.push({
         x: Math.random() * (W + 200) - 100,
@@ -1559,7 +1561,7 @@
         speed: 400 + Math.random() * 300 + proximity * 250
       });
     }
-    
+
     for(let i = rainParticles.length - 1; i >= 0; i--) {
       const rp = rainParticles[i];
       rp.x -= rp.speed * 0.25 * dt;
@@ -1589,10 +1591,11 @@
     updateRain(dt);
     if(hitStopTimer > 0) {
       hitStopTimer = Math.max(0, hitStopTimer - dt);
+      clearPressedInputs();
       return;
     }
-    if(!assetsReady()) return;
-    if(state !== 'play') { updateFx(dt); return; }
+    if(!assetsReady()) { clearPressedInputs(); return; }
+    if(state !== 'play') { updateFx(dt); clearPressedInputs(); return; }
     // Phase 1: Level intro splash – show for full introT seconds before anything else
     if(p.introT > 0){
       p.introT = Math.max(0, p.introT - dt);
@@ -1656,7 +1659,7 @@
     const wasGround = p.onGround;
     p.prevY = p.y; p.fallingVy = p.vy;
     moveAndCollide(dt);
-    
+
     // Waterfront water interaction
     const waterLevel = 360;
     const isWaterLevel = ['waterfront','pier'].includes(levelTheme);
@@ -1690,7 +1693,7 @@
     p.routeFrames = (p.routeFrames || 0) + 1;
     if(p.y < 330) p.highRouteFrames = (p.highRouteFrames || 0) + 1;
     if(p.y > 430) p.lowRouteFrames = (p.lowRouteFrames || 0) + 1;
-    
+
     // Store afterimage history
     if(!p.trailHistory) p.trailHistory = [];
     p.trailHistory.push({
@@ -1783,7 +1786,7 @@
     totalScore += p.score;
     const finalScore = totalScore;
     p.rank = finalScore >= 11800 ? 'S' : finalScore >= 8800 ? 'A' : finalScore >= 6200 ? 'B' : 'C';
-    if(finalScore > bestScore){ bestScore = finalScore; setStoredValue('capStrikerBest', bestScore); }
+    if(finalScore > bestScore){ bestScore = finalScore; setStoredValue('cloudChaserBest', bestScore); }
     p.score = finalScore; state='win'; p.winFlash=1; emit(goal.x+45, goal.y+80, '#f2c165', 42, 7); playTone('win');
   }
 
@@ -2383,7 +2386,7 @@
     ctx.translate(Math.round(-cam.x+shake), 0);
     drawWorldLayers();
     ctx.restore();
-    drawWarnings(); drawHud(); drawObjectiveRibbon(); drawTutorialCoach(); drawDebugOverlay(); drawOverlay(); drawPolishBanners(); drawPostFX();
+    drawWarnings(); drawHud(); drawObjectiveRibbon(); drawTutorialCoach(); drawDebugOverlay(); drawOverlay(); drawPolishBanners(); drawPostFX(dt || 0.016);
     drawTransitions(dt || 0.016);
   }
 
@@ -4443,7 +4446,7 @@
     drawSNESMessageCard();
   }
 
-  
+
   function drawCleanHud(){
     const gap = storm ? Math.max(0, Math.min(1, (p.x - storm.x) / 560)) : 1;
     const flow = Math.max(0, Math.min(1, p.gust / CFG.gustMax));
@@ -4798,7 +4801,7 @@ function drawHudMeter(x,y,w,value,color){
     ctx.strokeStyle='#5b4050'; ctx.lineWidth=3; ctx.strokeRect(x+8,y+8,w-16,h-16);
     for(let i=0;i<8;i++){ ctx.fillStyle=i%2?'#5fd0e8':'#df5774'; ctx.fillRect(x+18+i*18,y+28,10,10); ctx.fillRect(x+w-32-i*18,y+h-38,10,10); }
   }
-  function drawPostFX(){
+  function drawPostFX(dt=0.016){
     ctx.save();
     if(p && p.feverT > 0 && !settings.reducedMotion) {
       const pulse = 0.42 + Math.sin(performance.now() / 100) * 0.18;
