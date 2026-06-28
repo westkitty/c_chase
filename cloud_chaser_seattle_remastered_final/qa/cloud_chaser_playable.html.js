@@ -111,7 +111,7 @@
     powerupScore: 300,
     lampRadius: 285,
     vanIntroTime: 1.55,
-    levelWidthScale: 1.28,
+    levelWidthScale: 1.0,
     levelTimeScale: 1.18,
     lostCloudLife: 5.4,
     reserveDropScore: 450,
@@ -421,7 +421,7 @@
       goal:{x:4600,y:440,w:92,h:140}
     },
     {
-      name:'Gas Works Bonus Zone', world:'GAS WORKS BONUS', subtitle:'Industrial Boiler Labyrinth', theme:'gasworks', time:74, targetCaps:10, worldMaxX:3600, spawn:{x:90,y:452}, stormStartX:-520,
+      name:'Gas Works Bonus Zone', world:'GAS WORKS BONUS', subtitle:'Industrial Boiler Labyrinth', theme:'gasworks', time:90, targetCaps:5, worldMaxX:3600, spawn:{x:90,y:452}, stormStartX:-520,
       platforms:[
         {x:-80,y:500,w:440,h:60,type:'bonus'}, {x:440,y:280,w:80,h:260,type:'bonus'}, {x:520,y:280,w:320,h:260,type:'bonus'},
         {x:840,y:280,w:80,h:260,type:'bonus'}, {x:920,y:500,w:480,h:60,type:'bonus'}, {x:1400,y:280,w:80,h:260,type:'bonus'},
@@ -464,42 +464,7 @@
       goal:{x:3200,y:440,w:92,h:140}
     },
     {
-      name:'Fremont Troll Showdown', world:'FREMONT 4-B', subtitle:'Aurora Scaffold Arena', theme:'fremont', time:96, targetCaps:4, worldMaxX:2550, spawn:{x:90,y:452}, stormStartX:-620,
-      platforms:[
-        {x:-80,y:500,w:640,h:60,type:'pier'}, {x:680,y:500,w:580,h:60,type:'pier'}, {x:1380,y:500,w:1200,h:60,type:'pier'}
-      ],
-      ledges:[
-        {x:320,y:360,w:160,h:18,type:'bar'}, {x:520,y:360,w:160,h:18,type:'bar'}, {x:820,y:360,w:160,h:18,type:'bar'},
-        {x:1020,y:360,w:160,h:18,type:'bar'}, {x:1420,y:360,w:160,h:18,type:'bar'}, {x:1720,y:360,w:160,h:18,type:'bar'},
-        {x:2020,y:360,w:160,h:18,type:'bar'}, {x:420,y:220,w:120,h:18,type:'bar'}, {x:920,y:220,w:120,h:18,type:'bar'},
-        {x:1520,y:220,w:120,h:18,type:'bar'}, {x:1820,y:220,w:120,h:18,type:'bar'}
-      ],
-      springs:[
-        {x:580,y:484,w:38,h:16,force:-18,label:'BOSS'}, {x:1200,y:484,w:38,h:16,force:-18,label:'REVENGE'},
-        {x:1600,y:484,w:38,h:16,force:-18,label:'SCAFFOLD'}
-      ],
-      pickups:[
-        {x:400,y:300},{x:600,y:300,bonus:true},{x:900,y:300},{x:1100,y:300,bonus:true},{x:1500,y:300},
-        {x:1660,y:300,bonus:true},{x:1900,y:300}
-      ],
-      powerups:[
-        {type:'shield',x:400,y:260}, {type:'heart',x:900,y:260}, {type:'lamp',x:1500,y:260}
-      ],
-      tricks:[
-        {x:600,y:220,label:'BOSS RING'}, {x:900,y:140,label:'HEADWIND'}, {x:1100,y:220,label:'CLOUD FEINT'}, {x:1660,y:220,label:'RAGE RING'}
-      ],
-      checkpoints:[
-        {x:900,y:500,spawnX:920,spawnY:452,active:false,label:'BOSS DOOR'}
-      ],
-      hazards:[
-        {kind:'drone',x:500,y:300,baseY:300,alive:true,phase:0}, {kind:'barricade',x:820,y:440,alive:true,hp:1},
-        {kind:'boss',x:1550,y:276,baseY:276,alive:true,hp:8,maxHp:8,phase:0,hitT:0},
-        {kind:'drone',x:1800,y:300,baseY:300,alive:true,phase:1.5}, {kind:'drone',x:2100,y:300,baseY:300,alive:true,phase:2.5}
-      ],
-      goal:{x:2300,y:440,w:92,h:140}
-    },
-    {
-      name:'Monorail Moon Bounce', world:'MONORAIL BONUS', subtitle:'Broken Monorail Line', theme:'monorail', time:62, targetCaps:12, worldMaxX:3300, spawn:{x:90,y:452}, stormStartX:-700,
+      name:'Monorail Moon Bounce', world:'MONORAIL BONUS', subtitle:'Broken Monorail Line', theme:'monorail', time:80, targetCaps:7, worldMaxX:3300, spawn:{x:90,y:452}, stormStartX:-700,
       platforms:[
         {x:-80,y:500,w:390,h:60,type:'bonus'}, {x:360,y:320,w:320,h:30,type:'bonus'}, {x:540,y:500,w:320,h:42,type:'bonus'},
         {x:880,y:320,w:400,h:30,type:'bonus'}, {x:1120,y:500,w:340,h:42,type:'bonus'}, {x:1480,y:320,w:480,h:30,type:'bonus'},
@@ -536,6 +501,40 @@
         {kind:'barricade',x:1100,y:440,alive:true,hp:1}, {kind:'barricade',x:1700,y:440,alive:true,hp:1}
       ],
       goal:{x:3200,y:440,w:92,h:140}
+    },
+    {
+      name:'Fremont Troll Showdown', world:'FREMONT 4-B', subtitle:'Aurora Scaffold Arena', theme:'fremont', time:96, targetCaps:4, worldMaxX:2550, spawn:{x:90,y:452}, stormStartX:-620,
+      platforms:[
+        {x:-80,y:500,w:640,h:60,type:'pier'}, {x:680,y:500,w:580,h:60,type:'pier'}, {x:1380,y:500,w:1200,h:60,type:'pier'}
+      ],
+      ledges:[
+        {x:320,y:360,w:160,h:18,type:'bar'}, {x:520,y:360,w:160,h:18,type:'bar'}, {x:820,y:360,w:160,h:18,type:'bar'},
+        {x:1020,y:360,w:160,h:18,type:'bar'}, {x:1420,y:360,w:160,h:18,type:'bar'}, {x:1720,y:360,w:160,h:18,type:'bar'},
+        {x:2020,y:360,w:160,h:18,type:'bar'}, {x:420,y:220,w:120,h:18,type:'bar'}, {x:920,y:220,w:120,h:18,type:'bar'},
+        {x:1520,y:220,w:120,h:18,type:'bar'}, {x:1820,y:220,w:120,h:18,type:'bar'}
+      ],
+      springs:[
+        {x:580,y:484,w:38,h:16,force:-18,label:'BOSS'}, {x:1200,y:484,w:38,h:16,force:-18,label:'REVENGE'},
+        {x:1600,y:484,w:38,h:16,force:-18,label:'SCAFFOLD'}
+      ],
+      pickups:[
+        {x:400,y:300},{x:600,y:300,bonus:true},{x:900,y:300},{x:1100,y:300,bonus:true},{x:1500,y:300},
+        {x:1660,y:300,bonus:true},{x:1900,y:300}
+      ],
+      powerups:[
+        {type:'shield',x:400,y:260}, {type:'heart',x:900,y:260}, {type:'lamp',x:1500,y:260}
+      ],
+      tricks:[
+        {x:600,y:220,label:'BOSS RING'}, {x:900,y:140,label:'HEADWIND'}, {x:1100,y:220,label:'CLOUD FEINT'}, {x:1660,y:220,label:'RAGE RING'}
+      ],
+      checkpoints:[
+        {x:900,y:500,spawnX:920,spawnY:452,active:false,label:'BOSS DOOR'}
+      ],
+      hazards:[
+        {kind:'drone',x:500,y:300,baseY:300,alive:true,phase:0}, {kind:'barricade',x:820,y:440,alive:true,hp:1},
+        {kind:'boss',x:1550,y:276,baseY:276,alive:true,hp:8,maxHp:8,phase:0,hitT:0}
+      ],
+      goal:{x:2300,y:440,w:92,h:140}
     }
   ];
 
@@ -545,9 +544,9 @@
     {timeBonus:16, targetDelta:-1, stormBonus:135, note:'1-1 tutorial runway: lower cloud gate, softer storm pressure.'},
     {timeBonus:14, targetDelta:-1, stormBonus:110, note:'2-1 vertical climb: more time for platform reading.'},
     {timeBonus:12, targetDelta:0, stormBonus:95, note:'3-1 updraft route: slightly safer storm spacing.'},
-    {timeBonus:18, targetDelta:-1, stormBonus:120, note:'Bonus zone: better recovery room.'},
-    {timeBonus:10, targetDelta:0, stormBonus:90, extraCheckpoints:[{x:1850,y:452,spawnX:1885,spawnY:452,active:false,label:'TROLL WAKE'}], note:'Fremont midgame: preserve bite, add a post-boss recovery checkpoint.'},
-    {timeBonus:14, targetDelta:0, stormBonus:105, note:'Final/boss: readability over attrition.'}
+    {timeBonus:18, targetDelta:0, stormBonus:120, note:'Bonus zone: better recovery room.'},
+    {timeBonus:14, targetDelta:0, stormBonus:105, note:'Monorail romp: high-speed margin.'},
+    {timeBonus:10, targetDelta:0, stormBonus:90, extraCheckpoints:[{x:1850,y:452,spawnX:1885,spawnY:452,active:false,label:'TROLL WAKE'}], note:'Fremont showdown: Aurora scaffold arena climax.'}
   ];
   const DEFAULT_BINDINGS = {
     left:['ArrowLeft','KeyA'], right:['ArrowRight','KeyD'], up:['ArrowUp','KeyW'], down:['ArrowDown','KeyS'],
@@ -600,9 +599,9 @@
     {world:'PIKE PLACE 1-1', casual:92, practiced:68, sRank:51, assist:110},
     {world:'SEATTLE CENTER 2-1', casual:108, practiced:82, sRank:62, assist:128},
     {world:'WATERFRONT 3-1', casual:103, practiced:78, sRank:59, assist:124},
-    {world:'GAS WORKS BONUS', casual:98, practiced:72, sRank:55, assist:118},
-    {world:'FREMONT 4-B', casual:112, practiced:86, sRank:66, assist:134},
-    {world:'MONORAIL BONUS', casual:116, practiced:90, sRank:70, assist:140}
+    {world:'GAS WORKS BONUS', casual:90, practiced:70, sRank:52, assist:110},
+    {world:'MONORAIL BONUS', casual:80, practiced:60, sRank:45, assist:100},
+    {world:'FREMONT 4-B', casual:96, practiced:72, sRank:54, assist:116}
   ];
   const GAMEPAD_ACTIONS = Object.keys(DEFAULT_BINDINGS);
 
@@ -745,7 +744,7 @@
     return {...level, targetCaps:Math.max(3, level.targetCaps + (balance.targetDelta || 0)), balance};
   }
   function widenX(level, x){ return level.spawn.x + (x - level.spawn.x) * CFG.levelWidthScale; }
-  function widenW(w, scale=.12){ return w * (1 + scale); }
+  function widenW(w, scale=0){ return w; }
   function widenLevel(level){
     const index = Math.max(0, LEVELS.indexOf(level));
     level = applyBalancePatch(level, index);
@@ -829,6 +828,88 @@
       {x:level.spawn.x + span*.72, y:['gasworks','fremont'].includes(level.theme) ? 168 : 202, got:false, phase:1.1}
     ];
   }
+
+  function findFootholdY(x, preferredY) {
+    let bestSolid = null;
+    let bestDist = Infinity;
+    for (const s of allSolids) {
+      if (x >= s.x && x <= s.x + s.w) {
+        let dist = Math.abs(s.y - preferredY);
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestSolid = s;
+        }
+      }
+    }
+    return bestSolid ? bestSolid.y : null;
+  }
+
+  function getNearbyFootholdY(x) {
+    let leftSolid = null;
+    let rightSolid = null;
+    for (const s of allSolids) {
+      if (s.x + s.w <= x) {
+        if (!leftSolid || s.x + s.w > leftSolid.x + leftSolid.w) {
+          leftSolid = s;
+        }
+      }
+      if (s.x >= x) {
+        if (!rightSolid || s.x < rightSolid.x) {
+          rightSolid = s;
+        }
+      }
+    }
+    const leftY = leftSolid ? leftSolid.y : 452;
+    const rightY = rightSolid ? rightSolid.y : 452;
+    return Math.min(leftY, rightY);
+  }
+
+  function adjustProceduralPlacement() {
+    dashPanels.forEach((item) => {
+      let fhY = findFootholdY(item.x, item.y);
+      if (fhY !== null) {
+        item.y = fhY - item.h;
+      }
+    });
+    secretCaches.forEach((item) => {
+      let fhY = findFootholdY(item.x, item.y);
+      if (fhY !== null) {
+        item.y = fhY - 64;
+      }
+    });
+    cloudCannons.forEach((item) => {
+      let fhY = findFootholdY(item.x, item.y);
+      if (fhY !== null) {
+        item.y = fhY - 64;
+      }
+    });
+    switchBlocks.forEach((item) => {
+      let fhY = findFootholdY(item.x, item.y);
+      if (fhY !== null) {
+        item.y = fhY - 64;
+      }
+    });
+    updrafts.forEach((item) => {
+      let fhY = findFootholdY(item.x + item.w / 2, item.y);
+      if (fhY !== null) {
+        item.y = fhY - item.h;
+      }
+    });
+    stamps.forEach((item, i) => {
+      let fhY = findFootholdY(item.x, item.y);
+      if (fhY === null) {
+        fhY = getNearbyFootholdY(item.x);
+      }
+      item.y = fhY - 110 - (i % 2) * 40;
+    });
+    redClouds.forEach((item, i) => {
+      let fhY = findFootholdY(item.x, item.y);
+      if (fhY === null) {
+        fhY = getNearbyFootholdY(item.x);
+      }
+      item.y = fhY - 110 - (i % 3) * 30;
+    });
+  }
   function setupLevel(index, nextState='play'){
     const level = widenLevel(LEVELS[index]);
     levelIndex = index; levelName = level.name; levelWorld = level.world; levelSubtitle = level.subtitle; levelTheme = level.theme; worldMaxX = level.worldMaxX; levelBalance = level.balance || {}; selectedLevel = index;
@@ -846,6 +927,7 @@
     updrafts = generateUpdrafts(level);
     dashPanels = generateDashPanels(level);
     switchBlocks = generateSwitchBlocks(level);
+    adjustProceduralPlacement();
 
     // Clear dynamic polish lists to prevent memory leaks and state leakage
     shockwaves.length = 0;
@@ -949,6 +1031,7 @@
   }
 
   function rects(a,b){ return a.x < b.x+b.w && a.x+a.w > b.x && a.y < b.y+b.h && a.y+a.h > b.y; }
+  function rectsWithLips(a,b,lipWidth=5){ return a.x < b.x+b.w+lipWidth && a.x+a.w > b.x-lipWidth && a.y < b.y+b.h && a.y+a.h > b.y; }
   function vfxKindForColor(color){
     if(color === '#df5774') return 'enemy_hit';
     if(color === '#ffd36e' || color === '#f2c165') return 'power_burst';
@@ -1429,7 +1512,8 @@
     p.y += p.vy * dt * 60;
     p.onGround = false;
     for(const s of allSolids){
-      if(rects(p,s)){
+      const collided = (p.vy > 0) ? rectsWithLips(p, s, 6) : rects(p, s);
+      if(collided){
         if(p.vy>0){
           p.y=s.y-p.h;
           if(s.type === 'awning'){
@@ -1652,7 +1736,7 @@
     if (isSkidding && Math.random() < 0.35) {
       emit(p.x + p.w/2, p.y + p.h, '#fff4d888', 3, 1.5);
     }
-    const topSpeed = CFG.maxRun + p.caps * CFG.cloudSpeedBonus + (p.rush>0 ? CFG.rushSpeedBonus : 0) + (p.shoesT>0 ? 1.9 : 0) + (p.feverT>0 ? .9 : 0);
+    const topSpeed = CFG.maxRun + p.bonusCaps * CFG.cloudSpeedBonus * 2.2 + (p.rush>0 ? CFG.rushSpeedBonus : 0) + (p.shoesT>0 ? 1.9 : 0) + (p.feverT>0 ? .9 : 0);
     p.vx = Math.max(-topSpeed, Math.min(topSpeed, p.vx));
     if(wantsJump()) p.jumpBuf = CFG.jumpBuffer;
     if(p.jumpBuf>0 && (p.coyote>0 || p.jumpsLeft>0)){
@@ -1858,17 +1942,25 @@
   function updateStorm(dt){
     storm.damageCooldown = Math.max(0, storm.damageCooldown - dt);
     storm.pulse += dt;
-    const lag = CFG.stormLagBase + p.caps * CFG.stormLagPerCloud + (levelBalance.stormBonus || 0) + (assistMode ? 155 : 0) + (practiceMode ? 420 : 0);
+
+    const baseSpeed = 2.1;
+    const isSurging = checkStormSurge();
+    const speed = baseSpeed * (isSurging ? 1.6 : 1.0);
+    storm.x += speed * dt * 60;
+
+    const lag = CFG.stormLagBase + (levelBalance.stormBonus || 0) + (assistMode ? 155 : 0) + (practiceMode ? 420 : 0);
     const desired = Math.max(CFG.stormStartX, p.x - lag);
-    const stormDist = p.x - storm.x;
-    let proximityScale = 1.0;
-    if (stormDist < 160) {
-      proximityScale = Math.max(0.75, 0.75 + (stormDist / 160) * 0.25);
-    } else if (stormDist > 350) {
-      proximityScale = Math.min(1.25, 1.0 + ((stormDist - 350) / 350) * 0.25);
+    if (storm.x < desired) {
+      const stormDist = p.x - storm.x;
+      let proximityScale = 1.0;
+      if (stormDist < 160) {
+        proximityScale = Math.max(0.75, 0.75 + (stormDist / 160) * 0.25);
+      } else if (stormDist > 350) {
+        proximityScale = Math.min(1.25, 1.0 + ((stormDist - 350) / 350) * 0.25);
+      }
+      const catchup = (p.vx > 3 ? 1.25 : 1.75) * (p.rush>0 ? CFG.rushStormSlow : 1) * (assistMode ? .72 : 1) * (practiceMode ? .55 : 1) * proximityScale;
+      storm.x += (desired - storm.x) * Math.min(1, dt * catchup);
     }
-    const catchup = (p.vx > 3 ? 1.25 : 1.75) * (p.rush>0 ? CFG.rushStormSlow : 1) * (assistMode ? .72 : 1) * (practiceMode ? .55 : 1) * proximityScale;
-    storm.x += (desired - storm.x) * Math.min(1, dt * catchup);
     if(p.x < storm.x + CFG.stormCatchDistance && storm.damageCooldown <= 0){
       storm.damageCooldown = CFG.stormDamageCooldown;
       cam.shake = Math.max(cam.shake, .38);
@@ -1907,11 +1999,16 @@
         h.attackT = Math.max(0, (h.attackT || CFG.bossSweepCooldown) - dt);
         h.attackWarn = Math.max(0, (h.attackWarn || 0) - dt);
         if(h.attackT <= 0){
-          h.attackLabel = h.hp <= CFG.bossRageHp ? 'MINION BURST' : 'SWEEP';
+          h.attackLabel = h.hp <= CFG.bossRageHp ? (Math.random() < 0.5 ? 'MINION BURST' : 'STORM SURGE') : 'SWEEP';
           h.attackWarn = CFG.bossWarnTime;
           h.attackT = h.hp <= CFG.bossRageHp ? 2.05 : CFG.bossSweepCooldown;
           pop(h.attackLabel, h.x-42, h.y-76, h.hp <= CFG.bossRageHp ? '#df5774' : '#ffd36e');
         }
+        if (h.hp <= CFG.bossRageHp && h.attackLabel === 'STORM SURGE' && h.attackWarn > 0) {
+          storm.x += 2.4 * dt * 60;
+        }
+        const targetBaseY = h.hp <= CFG.bossRageHp ? 176 : 276;
+        h.baseY += (targetBaseY - h.baseY) * 0.05;
         h.y = h.baseY + Math.sin(h.phase) * (h.hp <= CFG.bossRageHp ? 48 : 30);
         h.x += Math.sin(h.phase * .7) * (h.hp <= CFG.bossRageHp ? .72 : .42);
         const activeMinions = hazards.filter(e=>e.kind === 'drone' && e.alive && Math.abs(e.x-h.x) < 760).length;
@@ -2310,14 +2407,14 @@
       }
       if(rects(p,{x:c.x-18,y:c.y-16,w:36,h:30})){
         c.got=true; p.caps++; if(c.bonus) p.bonusCaps++;
-        p.score += c.bonus ? 250 : 100; p.time += (c.bonus ? 6 : 4) + (assistMode ? 1 : 0);
+        p.score += c.bonus ? 250 : 100; p.time += (c.bonus ? 6 : 2) + (assistMode ? 1 : 0);
         p.gust=Math.min(CFG.gustMax,p.gust+CFG.gustCloudGain*(c.bonus?1.35:1));
         fillFlask(CFG.flaskCloudFill * (c.bonus ? 2 : 1), c.x, c.y-38, 'CLOUD FLASK');
         awardBonusStars(c.bonus ? 3 : (p.caps > p.targetCaps ? 2 : 1), c.x-8, c.y-52, c.bonus ? 'SWIFT' : 'CLOUD');
         if(p.caps === p.targetCaps) activateScout('EXIT SCOUT');
-        storm.x -= CFG.stormPushback * (c.bonus ? 1.45 : 1);
+        storm.x -= c.bonus ? CFG.stormPushback : 15;
         emit(c.x,c.y,'#fff4d8',20,4); emitRing(c.x,c.y,'#ffd36e',12); emit(c.x,c.y,'#5fd0e8',8,3);
-        pop(c.bonus?'+6s STORM PUSH':'+4s STORM PUSH', c.x-28, c.y-15, '#fff4d8'); playTone('collect', c.x);
+        pop(c.bonus?'+6s STORM PUSH':'+2s STORM PUSH', c.x-28, c.y-15, '#fff4d8'); playTone('collect', c.x);
       }
     }
   }
@@ -2570,6 +2667,24 @@
     ctx.restore();
   }
 
+  const SURGE_INTERVALS = [
+    [{start: 1200, end: 1700}, {start: 2800, end: 3300}], // Pike Place 1-1
+    [{start: 1000, end: 1500}, {start: 3000, end: 3500}], // Seattle Center 2-1
+    [{start: 1400, end: 1900}, {start: 3200, end: 3700}], // Waterfront 3-1
+    [{start: 800, end: 1300}, {start: 2000, end: 2500}],  // Gas Works
+    [{start: 1000, end: 1500}, {start: 2200, end: 2700}], // Monorail
+    [] // Fremont Boss Showdown (no surges)
+  ];
+
+  function checkStormSurge(){
+    if(!p) return false;
+    const intervals = SURGE_INTERVALS[levelIndex] || [];
+    for(const range of intervals){
+      if(p.x >= range.start && p.x <= range.end) return true;
+    }
+    return false;
+  }
+
   function drawWarnings(){
     if(state !== 'play') return;
     if(p.time < CFG.warningTime && Math.floor(performance.now()/240)%2===0){
@@ -2579,6 +2694,10 @@
     if(storm && state === 'play' && p.x - storm.x < 160 && Math.floor(performance.now()/220)%2===0){
       if(settings.cleanView === false){ ctx.fillStyle='#5fd0e826'; ctx.fillRect(0,0,W,H); }
       ctx.fillStyle='#fff1df'; ctx.font='900 14px system-ui'; ctx.fillText('STORM CLOSE', W-118, 52);
+    }
+    if(checkStormSurge() && Math.floor(performance.now()/200)%2===0){
+      if(settings.cleanView === false){ ctx.fillStyle='#d95f6433'; ctx.fillRect(0,0,W,H); }
+      ctx.fillStyle='#df5774'; ctx.font='900 14px system-ui'; ctx.fillText('STORM SURGING!', W-138, 70);
     }
     if(settings.cleanView === false && p.health === 1 && Math.floor(performance.now()/260)%2===0){
       ctx.strokeStyle='#d95f64aa'; ctx.lineWidth=6; ctx.strokeRect(7,7,W-14,H-14);
@@ -2697,16 +2816,19 @@
     const q = qaSnapshot();
     ctx.save();
     ctx.textAlign='start';
-    ctx.fillStyle='#05040add'; ctx.fillRect(12,86,304,116);
-    ctx.strokeStyle='#5fd0e8'; ctx.lineWidth=2; ctx.strokeRect(14,88,300,112);
+    ctx.fillStyle='#05040add'; ctx.fillRect(12,86,304,136);
+    ctx.strokeStyle='#5fd0e8'; ctx.lineWidth=2; ctx.strokeRect(14,88,300,132);
     ctx.fillStyle='#5fd0e8'; ctx.font='900 12px monospace'; ctx.fillText('QA DEBUG - F3',24,106);
     ctx.fillStyle='#fff4d8'; ctx.font='800 10px monospace';
+    const isSurging = checkStormSurge();
+    const regressionCheck = window.__cloudChaserRegression();
+    const totalIssues = regressionCheck.flatMap(r => r.issues).length;
     const lines = [
       `STATE ${q.state}  LV ${q.levelIndex+1}  ASSET ${q.loaded}/${q.requiredAssets}`,
       q.player ? `POS ${q.player.x},${q.player.y}  V ${q.player.vx},${q.player.vy}` : 'NO PLAYER',
-      q.player ? `HP ${q.player.health}  CLOUDS ${q.player.caps}/${q.player.targetCaps}  TIME ${q.player.time}` : '',
-      q.storm ? `STORM GAP ${q.storm.gap}  ASSIST ${q.assistMode?'ON':'OFF'}` : `ASSIST ${q.assistMode?'ON':'OFF'}`,
-      `HAZARDS ${q.hazardsAlive}  PICKUPS ${q.pickupsLeft}`
+      q.player ? `HP ${q.player.health}  CLOUDS ${q.player.caps}/${q.player.targetCaps} (B:${p.bonusCaps || 0})` : '',
+      q.storm ? `STORM GAP ${q.storm.gap}  SURGE:${isSurging?'ACTIVE':'OFF'}` : `SURGE:${isSurging?'ACTIVE':'OFF'}`,
+      `HAZARDS ${q.hazardsAlive}  PICKUPS ${q.pickupsLeft}  QA:${totalIssues===0?'PASS':'FAIL('+totalIssues+')'}`
     ].filter(Boolean);
     lines.forEach((line,i)=>ctx.fillText(line,24,126+i*16));
     ctx.restore();
@@ -5057,6 +5179,11 @@ function drawHudMeter(x,y,w,value,color){
       return;
     }
     requestAnimationFrame(loop);
+  }
+  const regressionResults = window.__cloudChaserRegression();
+  const allIssues = regressionResults.flatMap(r => r.issues);
+  if (allIssues.length > 0) {
+    throw new Error("QA Regression check failed: " + allIssues.join(", "));
   }
   applySettings(); reset(); requestAnimationFrame(loop);
 })();
