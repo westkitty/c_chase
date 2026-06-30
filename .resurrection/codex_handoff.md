@@ -9,7 +9,7 @@ Read this handoff and project_report.md first.
 
 ## Current Git State
 - Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: dirty | Remote: git@github.com:westkitty/c_chase.git
-- Latest commit: c8302f90128cccf4e99d70101c81b6c452543010 chore: snapshot pre-critique state and add level design review PDF
+- Latest commit: 2a5a554c7b1863e9bb4afee7c41a4326ff9e92d9 feat: implement adversarial level-design critique fixes
 
 ## Detected Project Type
 - Type: static_html

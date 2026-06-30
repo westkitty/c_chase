@@ -12,8 +12,8 @@
     "available": true,
     "branch": "main",
     "dirty": true,
-    "head": "c8302f90128cccf4e99d70101c81b6c452543010",
-    "head_subject": "chore: snapshot pre-critique state and add level design review PDF",
+    "head": "2a5a554c7b1863e9bb4afee7c41a4326ff9e92d9",
+    "head_subject": "feat: implement adversarial level-design critique fixes",
     "is_repo": true,
     "remote_url": "git@github.com:westkitty/c_chase.git",
     "repo_root": "/Users/andrew/cloud_chaser",
@@ -40,7 +40,7 @@
     "Review the generated handoff before changing code.",
     "Review the generated handoff before changing code."
   ],
-  "scan_timestamp": "2026-06-30T05:32:58+00:00",
+  "scan_timestamp": "2026-06-30T05:47:39+00:00",
   "scanner_version": "1.1.0",
   "secret_risks": []
 }

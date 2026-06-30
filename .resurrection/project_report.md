@@ -11,7 +11,7 @@
 
 ## Git State
 - Summary: Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: dirty | Remote: git@github.com:westkitty/c_chase.git
-- Latest commit: c8302f90128cccf4e99d70101c81b6c452543010 chore: snapshot pre-critique state and add level design review PDF
+- Latest commit: 2a5a554c7b1863e9bb4afee7c41a4326ff9e92d9 feat: implement adversarial level-design critique fixes
 - Tracked modified count: 3
 - Untracked count: 0
 - Staged count: 1
@@ -38,5 +38,5 @@ No secret-risk matches detected.
 5. Review the generated handoff before changing code.
 
 ## Scan Metadata
-- Timestamp: 2026-06-30T05:32:58+00:00
+- Timestamp: 2026-06-30T05:47:39+00:00
 - Scanner version: 1.1.0
