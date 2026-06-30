@@ -1133,7 +1133,7 @@
     if(n >= 16) queueVfx(vfxKindForColor(color), x, y, Math.min(1.45, .78 + n/42), .36 + Math.min(.24, n/140));
     for(let i=0;i<n;i++) fx.push({x,y,vx:(Math.random()-.5)*pow,vy:(Math.random()-.7)*pow,life:.45+Math.random()*.35,color,r:2+Math.random()*3});
   }
-  function pop(text,x,y,color){ motes.push({text,x,y,vy:-24,life:1,color}); }
+  function pop(text,x,y,color){ motes.push({text,x,y,vy:-24,life:0.45,color}); }
   function awardBonusStars(n,x,y,label='BONUS'){
     if(!p || n <= 0) return;
     p.bonusStars += n;
@@ -1461,7 +1461,8 @@
       if(practiceMode) state = 'select';
       else setupLevel(Math.min(levelIndex + 1, LEVELS.length - 1), 'play');
     }
-    else if(state === 'win' || state === 'fail') { practiceMode = false; totalScore = 0; setupLevel(0, 'play'); }
+    else if(state === 'win') { practiceMode = false; totalScore = 0; setupLevel(0, 'play'); }
+    else if(state === 'fail') { setupLevel(levelIndex, 'play'); }
     else if(state !== 'play') state='play';
     last=performance.now();
   }
@@ -1503,7 +1504,8 @@
     if(actionPressed('restart') && state === 'play') { setupLevel(levelIndex, 'play'); last=performance.now(); }
     if(actionPressed('reserve') && state === 'play' && p && p.reserve) deployReserve();
     if((state === 'title' || state === 'levelclear') && (actionPressed('confirm') || actionPressed('attack'))) startPlay();
-    if((state === 'win' || state === 'fail') && (actionPressed('restart') || actionPressed('confirm'))) { practiceMode = false; totalScore = 0; setupLevel(0, 'play'); last=performance.now(); }
+    if(state === 'win' && (actionPressed('restart') || actionPressed('confirm'))) { practiceMode = false; totalScore = 0; setupLevel(0, 'play'); last=performance.now(); }
+    if(state === 'fail' && (actionPressed('restart') || actionPressed('confirm'))) { setupLevel(levelIndex, 'play'); last=performance.now(); }
   });
   addEventListener('keyup', e => keys.delete(e.code));
 
@@ -1611,7 +1613,6 @@
             emit(p.x+p.w/2, p.y+p.h, '#fff1df', 12, 3.8);
             shockwaves.push({x: p.x + p.w/2, y: p.y + p.h, radius: 4, speed: 250, life: 0.4, maxLife: 0.4, color: 'rgba(255, 211, 110, 0.72)', alpha: 0.72});
             playTone('jump', p.x);
-            pop('BOUNCE!', p.x-10, p.y-8, '#ffd36e');
           } else {
             if(!p.onGround){
               p.scaleX = 1.22; p.scaleY = 0.8; p.scaleVx = 5.0; p.scaleVy = -5.0;
@@ -1838,7 +1839,6 @@
         shockwaves.push({x: p.x + p.w/2, y: p.y + p.h, radius: 4, speed: 200, life: 0.35, maxLife: 0.35, color: 'rgba(242, 193, 101, 0.65)', alpha: 0.65});
       }
       playTone(fromGround ? 'jump' : 'double', p.x);
-      if(!fromGround) pop('DOUBLE JUMP', p.x-10, p.y-8, '#f2c165');
     }
     if(!jumpHeld() && p.vy < -4) p.vy *= .88;
     if(wantsAttack() && p.attack<=0) beginFlowStrike();
@@ -2201,7 +2201,6 @@
     storm.x -= 32 + Math.min(80, p.chain * 8);
     cam.shake = Math.max(cam.shake, .10 + Math.min(.22, p.chain*.018));
     emit(x+18,y+18,p.chain>2?'#f2c165':'#5fd0e8', 18 + Math.min(18,p.chain*3), 4.5);
-    pop(`${label} +${score}`, x-16, y-8, p.chain>2?'#f2c165':'#5fd0e8');
     if(p.chain>2) pop(`CHAIN x${p.chain}`, p.x-18, p.y-34, '#fff1df');
   }
 
@@ -2310,7 +2309,6 @@
         if(!u.touched){
           u.touched = true;
           p.score += CFG.updraftScore;
-          pop('UPDRAFT', p.x-18, p.y-22, '#5fd0e8');
         }
         if(Math.floor((p.animT + u.phase) * 18) % 5 === 0) emit(p.x+p.w/2, p.y+p.h, '#fff4d8', 2, 2.2);
       } else if(!rects(p,{x:box.x-30,y:box.y-30,w:box.w+60,h:box.h+60})){
@@ -2334,7 +2332,6 @@
         cam.shake = Math.max(cam.shake, .12);
         emit(d.x+d.w/2,d.y,'#5fd0e8',18,4.8);
         shockwaves.push({x: d.x + d.w/2, y: d.y, radius: 6, speed: 350, life: 0.45, maxLife: 0.45, color: 'rgba(95, 208, 232, 0.85)', alpha: 0.85});
-        pop('DASH PANEL', d.x-16, d.y-22, '#5fd0e8');
         playTone('rush', d.x);
       }
     }
@@ -2369,7 +2366,7 @@
       c.life -= dt; c.x += c.vx * dt * 60; c.y += c.vy * dt * 60; c.vy += .18 * dt * 60; c.bob += .12 * dt * 60;
       if(rects(p,{x:c.x-10,y:c.y-10,w:20,h:20})){
         c.life = 0; p.gust = Math.min(CFG.gustMax, p.gust + 12); p.time += 1; p.score += 60;
-        emit(c.x,c.y,'#fff4d8',8,2.5); pop('+1s', c.x-10, c.y-12, '#fff4d8'); playTone('collect');
+        emit(c.x,c.y,'#fff4d8',8,2.5); playTone('collect');
       }
     }
     lostClouds = lostClouds.filter(c=>c.life>0);
@@ -2501,7 +2498,7 @@
         if(p.caps === p.targetCaps) activateScout('EXIT SCOUT');
         storm.x -= c.bonus ? CFG.stormPushback : 15;
         emit(c.x,c.y,'#fff4d8',20,4); emitRing(c.x,c.y,'#ffd36e',12); emit(c.x,c.y,'#5fd0e8',8,3);
-        pop(c.bonus?'+6s STORM PUSH':'+2s STORM PUSH', c.x-28, c.y-15, '#fff4d8'); playTone('collect', c.x);
+        if(c.bonus) pop('+6s STORM PUSH', c.x-28, c.y-15, '#fff4d8'); playTone('collect', c.x);
       }
     }
   }

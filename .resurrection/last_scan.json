@@ -3,13 +3,13 @@
     "available": true,
     "branch": "main",
     "dirty": true,
-    "head": "868c7cb909e1b550ec35584dadb76c1d830494ce",
-    "head_subject": "Rebuild level layouts with vertical towers, water chasms, boiler labyrinths, scaffold arenas, and dual transit lanes",
+    "head": "424b10d0722cffa1ece63ba693e3c3bff2f93002",
+    "head_subject": "feat: integrate remaster balance, mechanics, level reordering, and boot-time QA checks",
     "is_repo": true,
     "remote_url": "git@github.com:westkitty/c_chase.git",
     "repo_root": "/Users/andrew/cloud_chaser",
-    "staged_count": 0,
-    "tracked_modified_count": 0,
+    "staged_count": 1,
+    "tracked_modified_count": 4,
     "untracked_count": 1
   },
   "identity": {
@@ -31,16 +31,16 @@
     "Review the generated handoff before changing code.",
     "Review the generated handoff before changing code."
   ],
-  "scan_timestamp": "2026-06-27T19:19:12+00:00",
+  "scan_timestamp": "2026-06-29T04:21:21+00:00",
   "scanner_version": "1.1.0",
   "signature": {
     "git_dirty": {
       "dirty": true,
-      "staged_count": 0,
-      "tracked_modified_count": 0,
+      "staged_count": 1,
+      "tracked_modified_count": 4,
       "untracked_count": 1
     },
-    "git_head": "868c7cb909e1b550ec35584dadb76c1d830494ce",
+    "git_head": "424b10d0722cffa1ece63ba693e3c3bff2f93002",
     "project_type": "static_html",
     "scanner_version": "1.1.0",
     "watched_files": {

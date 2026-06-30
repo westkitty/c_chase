@@ -9,7 +9,7 @@ Read this handoff and project_report.md first.
 
 ## Current Git State
 - Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: dirty | Remote: git@github.com:westkitty/c_chase.git
-- Latest commit: 868c7cb909e1b550ec35584dadb76c1d830494ce Rebuild level layouts with vertical towers, water chasms, boiler labyrinths, scaffold arenas, and dual transit lanes
+- Latest commit: 424b10d0722cffa1ece63ba693e3c3bff2f93002 feat: integrate remaster balance, mechanics, level reordering, and boot-time QA checks
 
 ## Detected Project Type
 - Type: static_html
