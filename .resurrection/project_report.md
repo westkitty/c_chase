@@ -11,7 +11,7 @@
 
 ## Git State
 - Summary: Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: dirty | Remote: git@github.com:westkitty/c_chase.git
-- Latest commit: 2a5a554c7b1863e9bb4afee7c41a4326ff9e92d9 feat: implement adversarial level-design critique fixes
+- Latest commit: 0508b4c10e8b0694aaea05720113f657d6fa9a45 chore: update resurrection metadata after critique implementation
 - Tracked modified count: 3
 - Untracked count: 0
 - Staged count: 1
@@ -38,5 +38,5 @@ No secret-risk matches detected.
 5. Review the generated handoff before changing code.
 
 ## Scan Metadata
-- Timestamp: 2026-06-30T05:47:39+00:00
+- Timestamp: 2026-06-30T05:49:15+00:00
 - Scanner version: 1.1.0
