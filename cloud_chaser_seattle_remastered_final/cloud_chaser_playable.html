@@ -1123,7 +1123,7 @@
     spawnLevelBirds();
     state = nextState;
   }
-  function reset() { totalScore = 0; practiceMode = false; applySettings(); setupLevel(0, 'title'); }
+  function reset() { totalScore = 0; practiceMode = false; applySettings(); setupLevel(0, 'titlesplash'); }
 
   function qaSnapshot(){
     return {
@@ -1562,7 +1562,8 @@
 
   function startPlay(){
     ensureAudio();
-    if(state === 'title') { practiceMode = false; totalScore = 0; setupLevel(0, 'splash'); }
+    if(state === 'titlesplash') { state = 'title'; }
+    else if(state === 'title') { practiceMode = false; totalScore = 0; setupLevel(0, 'splash'); }
     else if(state === 'select') startSelectedLevel(practiceMode);
     else if(state === 'splash') { state = 'briefing'; }
     else if(state === 'briefing') { if(p) p.introT = 0; state = 'play'; }
@@ -1612,7 +1613,7 @@
     if(actionPressed('pause') && (state === 'play' || state === 'pause')) { state = state === 'pause' ? 'play' : 'pause'; if(state === 'play') last=performance.now(); }
     if(actionPressed('restart') && state === 'play') { setupLevel(levelIndex, 'play'); last=performance.now(); }
     if(actionPressed('reserve') && state === 'play' && p && p.reserve) deployReserve();
-    if((state === 'title' || state === 'levelclear' || state === 'splash' || state === 'briefing') && (actionPressed('confirm') || actionPressed('attack') || actionPressed('jump'))) startPlay();
+    if((state === 'titlesplash' || state === 'title' || state === 'levelclear' || state === 'splash' || state === 'briefing') && (actionPressed('confirm') || actionPressed('attack') || actionPressed('jump'))) startPlay();
     if(state === 'win' && (actionPressed('restart') || actionPressed('confirm'))) { practiceMode = false; totalScore = 0; setupLevel(0, 'briefing'); last=performance.now(); }
     if(state === 'fail' && (actionPressed('restart') || actionPressed('confirm'))) { setupLevel(levelIndex, 'play'); last=performance.now(); }
   });
@@ -1656,7 +1657,7 @@
     if (currentAudio && currentAudio.paused && settings.music && soundOn) {
       currentAudio.play().catch(err => {});
     }
-    if(state === 'splash' || state === 'briefing'){ startPlay(); return; }
+    if(state === 'titlesplash' || state === 'splash' || state === 'briefing'){ startPlay(); return; }
     if(state === 'levelclear'){
       const rect = canvas.getBoundingClientRect();
       const cx = (e.clientX - rect.left) * (W / rect.width);
@@ -2764,14 +2765,33 @@
     }
   }
 
+  function drawFullScreenSplash(dt){
+    const imgKey = state === 'titlesplash' ? 'title' : levelTheme;
+    const img = splashImgs[imgKey];
+    if(img && img.ready){
+      ctx.drawImage(img, 0, 0, W, H);
+    } else {
+      ctx.fillStyle='#08070b'; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle='#fff4d8'; ctx.textAlign='center'; ctx.font='900 32px monospace';
+      ctx.fillText(state==='titlesplash' ? 'CLOUD CHASER' : levelWorld, W/2, H/2);
+      ctx.textAlign='start';
+    }
+    drawTransitions(dt || 0.016);
+  }
+
   function draw(dt){
     ctx.save();
     ctx.clearRect(0,0,W,H);
+    if(state === 'titlesplash' || state === 'splash'){
+      ctx.restore();
+      drawFullScreenSplash(dt);
+      return;
+    }
     const shake = (settings.screenShake && !settings.reducedMotion && cam.shake) ? (Math.random()-.5)*cam.shake*18*settings.screenShake : 0;
     drawSky();
     
     let targetZoom = 1.25;
-    if (state === 'pause' || state === 'fail' || state === 'win' || state === 'title' || state === 'levelSelect' || state === 'splash' || state === 'briefing') {
+    if (state === 'pause' || state === 'fail' || state === 'win' || state === 'title' || state === 'levelSelect' || state === 'titlesplash' || state === 'splash' || state === 'briefing') {
       targetZoom = 1.0;
     }
     if (cam.zoom === undefined) cam.zoom = targetZoom;
@@ -5363,7 +5383,6 @@ function drawHudMeter(x,y,w,value,color){
     if(!assetsReady()){ ctx.fillStyle='#fff1df'; ctx.font='800 30px system-ui'; ctx.fillText('Loading Cloud Chaser...',W/2,H/2); ctx.textAlign='start'; return; }
     if(state === 'select') { drawLevelSelectOverlay(); ctx.textAlign='start'; return; }
     if(state === 'settings') { drawSettingsOverlay(); ctx.textAlign='start'; return; }
-    if(state === 'splash') { drawSplashPage(); ctx.textAlign='start'; return; }
     if(state === 'briefing') { drawBriefingScreen(); ctx.textAlign='start'; return; }
     if(state === 'title'){
       drawTitleShowcase();
