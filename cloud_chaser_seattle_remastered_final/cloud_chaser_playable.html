@@ -628,6 +628,96 @@
     }
   ];
 
+  const LEVEL_BRIEFINGS = [
+    {
+      world: 'PIKE PLACE 1-1', name: 'Pike Place Market Dash',
+      flavour: 'Race through the market canopy before the storm wall devours the alley.',
+      goal: [
+        'Collect clouds to fill your quota. Reach the finish line before time runs out.',
+        'The Stormline advances from the left — fall behind and it bites.'
+      ],
+      controls: [
+        { keys: '← → / A D', desc: 'Run' },
+        { keys: 'W / Space', desc: 'Jump   — press again in air for double-jump' },
+        { keys: 'X / J', desc: 'Blow attack — smash barricades and hazards' },
+        { keys: 'C', desc: 'Deploy reserve powerup' },
+        { keys: 'R', desc: 'Restart the level' },
+      ],
+      powerups: [
+        { icon: '🛡', name: 'SHIELD', desc: 'Absorbs one hit before HP drops.' },
+        { icon: '👟', name: 'SPEED SHOES', desc: 'Boosts your run speed for several seconds.' },
+        { icon: '🪶', name: 'FEATHER', desc: 'Each jump carries you higher and farther.' },
+      ],
+      tip: 'Springs (yellow coils) launch you to high routes. Hit them running for max height.',
+    },
+    {
+      world: 'SEATTLE CENTER 2-1', name: 'Seattle Center Sky Ladder',
+      flavour: 'The Space Needle scaffold is a vertical labyrinth. Climb fast.',
+      goal: [
+        'Collect 8 clouds. The route winds up tower faces — use every spring and ledge.',
+      ],
+      controls: [],
+      powerups: [
+        { icon: '⭐', name: 'STAR', desc: 'Brief invincibility — you destroy drones on contact.' },
+      ],
+      tip: 'Bonus clouds (gold) are off the main path and worth extra score. The route medal rewards staying high.',
+    },
+    {
+      world: 'WATERFRONT 3-1', name: 'Waterfront Wheel Lift',
+      flavour: 'Pier chasms and tidal swells. One bad double-jump and you\'re in the Sound.',
+      goal: [
+        'Collect 8 clouds across wide water gaps. Time double-jumps carefully.',
+      ],
+      controls: [],
+      powerups: [
+        { icon: '🔦', name: 'LAMP', desc: 'Lights up dark zones. Also bursts hazards nearby when collected.' },
+      ],
+      tip: 'Checkpoints save your position. Activate one before a risky crossing.',
+    },
+    {
+      world: 'GAS WORKS BONUS', name: 'Gas Works Bonus Zone',
+      flavour: 'The industrial zone kills the lights. Grab lamps or navigate blind.',
+      goal: [
+        'BONUS LEVEL — collect 5 clouds through the boiler labyrinth.',
+        'Dark zones go pitch black without a lamp. Find one fast.',
+      ],
+      controls: [],
+      powerups: [
+        { icon: '🔦', name: 'LAMP', desc: 'Essential here — grab it to see the path and burst drones on pickup.' },
+        { icon: '🛡', name: 'SHIELD', desc: 'You\'ll need it; the corridor is narrow and drones are everywhere.' },
+      ],
+      tip: 'Springs inside the boiler rooms are your only way up. Listen for the coil sound.',
+    },
+    {
+      world: 'MONORAIL BONUS', name: 'Monorail Moon Bounce',
+      flavour: 'The monorail line is broken. Bounce between rail segments above the city.',
+      goal: [
+        'BONUS LEVEL — collect 7 clouds along the rail line.',
+        'Rails sit at mid-height. Use springs below to reach them, feather to drift between gaps.',
+      ],
+      controls: [],
+      powerups: [
+        { icon: '⭐', name: 'STAR', desc: 'Clears drones on the rail without slowing your chain.' },
+        { icon: '🪶', name: 'FEATHER', desc: 'Lets you glide between widely spaced rail segments.' },
+      ],
+      tip: 'Chain multiple clouds in quick succession for a combo bonus. Keep moving.',
+    },
+    {
+      world: 'FREMONT 4-B', name: 'Fremont Troll Showdown',
+      flavour: 'No storm. Just you, the scaffold, and an eight-ton bridge troll.',
+      goal: [
+        'Collect 4 clouds, then fight the boss. Hit it with X to deal damage.',
+        'When its HP drops low, a weak point rises — reach the HIGH GROUND to reach it.',
+      ],
+      controls: [],
+      powerups: [
+        { icon: '❤️', name: 'HEART', desc: 'Restores 1 HP. Grab it before engaging the boss.' },
+        { icon: '🛡', name: 'SHIELD', desc: 'The troll\'s shockwave can one-shot you without one.' },
+      ],
+      tip: 'Boss enters RAGE MODE at half HP — it gets faster. The rage rings telegraph its sweeps.',
+    },
+  ];
+
   // Full Professional Revision systems. These are deliberately data-driven so future balancing
   // does not require hunting through the core loop like a raccoon in a wire closet.
   const LEVEL_BALANCE = [
@@ -791,7 +881,7 @@
     totalScore = 0;
     selectedLevel = Math.max(0, Math.min(unlockedLevel, selectedLevel));
     setStoredValue('cloudChaserSelectedLevel', selectedLevel);
-    setupLevel(selectedLevel, 'play');
+    setupLevel(selectedLevel, asPractice ? 'play' : 'briefing');
     last = performance.now();
   }
   function ghostKey(index=levelIndex){ return `cloudChaserGhostV2:${index}`; }
@@ -1472,13 +1562,14 @@
 
   function startPlay(){
     ensureAudio();
-    if(state === 'title') { practiceMode = false; totalScore = 0; setupLevel(0, 'play'); }
+    if(state === 'title') { practiceMode = false; totalScore = 0; setupLevel(0, 'briefing'); }
     else if(state === 'select') startSelectedLevel(practiceMode);
+    else if(state === 'briefing') { state = 'play'; }
     else if(state === 'levelclear') {
       if(practiceMode) state = 'select';
-      else setupLevel(Math.min(levelIndex + 1, LEVELS.length - 1), 'play');
+      else setupLevel(Math.min(levelIndex + 1, LEVELS.length - 1), 'briefing');
     }
-    else if(state === 'win') { practiceMode = false; totalScore = 0; setupLevel(0, 'play'); }
+    else if(state === 'win') { practiceMode = false; totalScore = 0; setupLevel(0, 'briefing'); }
     else if(state === 'fail') { setupLevel(levelIndex, 'play'); }
     else if(state !== 'play') state='play';
     last=performance.now();
@@ -1520,8 +1611,8 @@
     if(actionPressed('pause') && (state === 'play' || state === 'pause')) { state = state === 'pause' ? 'play' : 'pause'; if(state === 'play') last=performance.now(); }
     if(actionPressed('restart') && state === 'play') { setupLevel(levelIndex, 'play'); last=performance.now(); }
     if(actionPressed('reserve') && state === 'play' && p && p.reserve) deployReserve();
-    if((state === 'title' || state === 'levelclear') && (actionPressed('confirm') || actionPressed('attack'))) startPlay();
-    if(state === 'win' && (actionPressed('restart') || actionPressed('confirm'))) { practiceMode = false; totalScore = 0; setupLevel(0, 'play'); last=performance.now(); }
+    if((state === 'title' || state === 'levelclear' || state === 'briefing') && (actionPressed('confirm') || actionPressed('attack') || actionPressed('jump'))) startPlay();
+    if(state === 'win' && (actionPressed('restart') || actionPressed('confirm'))) { practiceMode = false; totalScore = 0; setupLevel(0, 'briefing'); last=performance.now(); }
     if(state === 'fail' && (actionPressed('restart') || actionPressed('confirm'))) { setupLevel(levelIndex, 'play'); last=performance.now(); }
   });
   addEventListener('keyup', e => keys.delete(e.code));
@@ -1564,6 +1655,7 @@
     if (currentAudio && currentAudio.paused && settings.music && soundOn) {
       currentAudio.play().catch(err => {});
     }
+    if(state === 'briefing'){ startPlay(); return; }
     if(state === 'levelclear'){
       const rect = canvas.getBoundingClientRect();
       const cx = (e.clientX - rect.left) * (W / rect.width);
@@ -2678,7 +2770,7 @@
     drawSky();
     
     let targetZoom = 1.25;
-    if (state === 'pause' || state === 'fail' || state === 'win' || state === 'title' || state === 'levelSelect') {
+    if (state === 'pause' || state === 'fail' || state === 'win' || state === 'title' || state === 'levelSelect' || state === 'briefing') {
       targetZoom = 1.0;
     }
     if (cam.zoom === undefined) cam.zoom = targetZoom;
@@ -5148,12 +5240,103 @@ function drawHudMeter(x,y,w,value,color){
     }
   }
 
+  function drawBriefingScreen(){
+    const b = LEVEL_BRIEFINGS[levelIndex] || LEVEL_BRIEFINGS[0];
+    const isFirst = levelIndex === 0;
+    const MX = 60, MY = 28, MW = 840;
+
+    // Calculate height based on content
+    const goalLines = b.goal.length;
+    const pwLines = b.powerups.length;
+    const ctrlLines = isFirst ? b.controls.length : 0;
+    const MH = 108 + goalLines*18 + (ctrlLines>0 ? ctrlLines*18+28 : 18) + pwLines*20 + 74;
+    drawModalBox(MX, MY, MW, MH, '#68c7e8');
+
+    // Header strip
+    ctx.fillStyle='#68c7e8'; ctx.font='700 11px monospace';
+    ctx.fillText('LEVEL BRIEFING', W/2, MY+18);
+
+    // World + name
+    ctx.fillStyle='#f2c165'; ctx.font='900 26px monospace';
+    ctx.fillText(b.world, W/2, MY+46);
+    ctx.fillStyle='#fff4d8'; ctx.font='700 14px system-ui';
+    ctx.fillText(b.name, W/2, MY+64);
+
+    // Flavour
+    ctx.fillStyle='#aaa8c8'; ctx.font='600 13px system-ui';
+    ctx.fillText(b.flavour, W/2, MY+82);
+
+    let cy = MY + 100;
+
+    // Divider
+    ctx.fillStyle='#5b4050'; ctx.fillRect(MX+20, cy, MW-40, 1); cy += 14;
+
+    // OBJECTIVE
+    ctx.fillStyle='#68c7e8'; ctx.font='700 11px monospace'; ctx.fillText('OBJECTIVE', W/2, cy); cy += 14;
+    ctx.fillStyle='#fff4d8'; ctx.font='700 14px system-ui';
+    b.goal.forEach(line => { ctx.fillText(line, W/2, cy); cy += 18; });
+
+    cy += 4;
+    ctx.fillStyle='#5b4050'; ctx.fillRect(MX+20, cy, MW-40, 1); cy += 14;
+
+    if(isFirst){
+      // Full controls table
+      ctx.fillStyle='#68c7e8'; ctx.font='700 11px monospace'; ctx.fillText('CONTROLS', W/2, cy); cy += 14;
+      b.controls.forEach(row => {
+        ctx.textAlign='right';
+        ctx.fillStyle='#ffd36e'; ctx.font='700 13px monospace'; ctx.fillText(row.keys, W/2 - 8, cy);
+        ctx.textAlign='left';
+        ctx.fillStyle='#fff4d8'; ctx.font='700 13px system-ui'; ctx.fillText(row.desc, W/2 + 8, cy);
+        ctx.textAlign='center';
+        cy += 18;
+      });
+    } else {
+      // Compact reminder
+      ctx.fillStyle='#666488'; ctx.font='700 12px monospace';
+      ctx.fillText('← → run   W / Space jump (×2 in air)   X attack   C reserve', W/2, cy); cy += 18;
+    }
+
+    cy += 4;
+    ctx.fillStyle='#5b4050'; ctx.fillRect(MX+20, cy, MW-40, 1); cy += 14;
+
+    // Powerups this level
+    ctx.fillStyle='#ffd36e'; ctx.font='700 11px monospace'; ctx.fillText('POWERUPS IN THIS LEVEL', W/2, cy); cy += 15;
+    if(b.powerups.length === 0){
+      ctx.fillStyle='#666488'; ctx.font='700 13px system-ui';
+      ctx.fillText('No new powerups — you know the toolkit.', W/2, cy); cy += 20;
+    } else {
+      b.powerups.forEach(pu => {
+        ctx.textAlign='left';
+        ctx.fillStyle='#ffd36e'; ctx.font='700 13px monospace';
+        ctx.fillText(`${pu.icon}  ${pu.name}`, MX+60, cy);
+        ctx.fillStyle='#aaa8c8'; ctx.font='600 13px system-ui';
+        ctx.fillText(pu.desc, MX+260, cy);
+        ctx.textAlign='center';
+        cy += 20;
+      });
+    }
+
+    cy += 4;
+    ctx.fillStyle='#5b4050'; ctx.fillRect(MX+20, cy, MW-40, 1); cy += 12;
+
+    // Tip
+    ctx.fillStyle='#5fd0e8'; ctx.font='700 12px system-ui';
+    ctx.fillText('TIP  ' + b.tip, W/2, cy); cy += 14;
+
+    // Prompt
+    const pulse = Math.floor(performance.now()/400)%2;
+    ctx.fillStyle = pulse ? '#ffd36e' : '#f2c165';
+    ctx.font='900 16px monospace';
+    ctx.fillText('CLICK  /  PRESS ANY KEY  TO START', W/2, MY + MH - 18);
+  }
+
   function drawOverlay(){
     if(state==='play') return;
     ctx.fillStyle='#120e17dd'; ctx.fillRect(0,0,W,H); ctx.textAlign='center';
     if(!assetsReady()){ ctx.fillStyle='#fff1df'; ctx.font='800 30px system-ui'; ctx.fillText('Loading Cloud Chaser...',W/2,H/2); ctx.textAlign='start'; return; }
     if(state === 'select') { drawLevelSelectOverlay(); ctx.textAlign='start'; return; }
     if(state === 'settings') { drawSettingsOverlay(); ctx.textAlign='start'; return; }
+    if(state === 'briefing') { drawBriefingScreen(); ctx.textAlign='start'; return; }
     if(state === 'title'){
       drawTitleShowcase();
       drawTitleHero();
@@ -5394,7 +5577,7 @@ function drawHudMeter(x,y,w,value,color){
       if(actionPressed('ghost')) { settings.ghost = !settings.ghost; applySettings(); }
       if(actionPressed('mute')) { settings.sound = !settings.sound; if(!settings.sound) settings.music = false; applySettings(); }
       if(actionPressed('debug')) debugOverlay = !debugOverlay;
-      if((state === 'title' || state === 'levelclear') && (actionPressed('confirm') || actionPressed('jump') || actionPressed('attack'))) startPlay();
+      if((state === 'title' || state === 'levelclear' || state === 'briefing') && (actionPressed('confirm') || actionPressed('jump') || actionPressed('attack'))) startPlay();
       if(actionPressed('pause') && (state === 'play' || state === 'pause')) { state = state === 'pause' ? 'play' : 'pause'; if(state === 'play') last=performance.now(); }
       if(actionPressed('restart') && state === 'play') { setupLevel(levelIndex, 'play'); last=performance.now(); }
       if(actionPressed('reserve') && state === 'play' && p && p.reserve) deployReserve();
