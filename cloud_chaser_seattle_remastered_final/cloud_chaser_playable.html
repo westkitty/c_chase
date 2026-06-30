@@ -2150,7 +2150,7 @@
   }
 
   function updateStorm(dt){
-    if(levelTheme === 'fremont') return;
+    if(levelTheme === 'fremont' || levelTheme === 'boss') return;
     storm.damageCooldown = Math.max(0, storm.damageCooldown - dt);
     storm.pulse += dt;
 
@@ -2843,7 +2843,7 @@
   }
 
   function drawStormline(){
-    if(!storm) return;
+    if(!storm || levelTheme === 'fremont' || levelTheme === 'boss') return;
     const x = storm.x;
     const pulse = Math.sin(storm.pulse * 9);
     const reach = 72 + pulse * 10;
@@ -2955,11 +2955,12 @@
       if(settings.cleanView === false){ ctx.fillStyle='#d95f6422'; ctx.fillRect(0,0,W,H); }
       ctx.fillStyle='#d95f64'; ctx.font='900 15px system-ui'; ctx.fillText('LOW TIME', W-110, 34);
     }
-    if(storm && state === 'play' && p.x - storm.x < 160 && Math.floor(performance.now()/220)%2===0){
+    const isBossTheme = levelTheme === 'fremont' || levelTheme === 'boss';
+    if(!isBossTheme && storm && state === 'play' && p.x - storm.x < 160 && Math.floor(performance.now()/220)%2===0){
       if(settings.cleanView === false){ ctx.fillStyle='#5fd0e826'; ctx.fillRect(0,0,W,H); }
       ctx.fillStyle='#fff1df'; ctx.font='900 14px system-ui'; ctx.fillText('STORM CLOSE', W-118, 52);
     }
-    if(checkStormSurge() && Math.floor(performance.now()/200)%2===0){
+    if(!isBossTheme && checkStormSurge() && Math.floor(performance.now()/200)%2===0){
       if(settings.cleanView === false){ ctx.fillStyle='#d95f6433'; ctx.fillRect(0,0,W,H); }
       ctx.fillStyle='#df5774'; ctx.font='900 14px system-ui'; ctx.fillText('STORM SURGING!', W-138, 70);
     }
@@ -4963,8 +4964,10 @@
     drawHudHeartRow(452,27,p.health,3);
     drawHudBadge(532,8,78,42,'#fff4d8','CLOUDS',`${p.caps}/${p.targetCaps}`);
     const gap = storm ? Math.max(0, Math.min(1, (p.x - storm.x) / 560)) : 1;
-    drawHudBadge(622,8,112,42,gap>.34?'#5fd0e8':'#df5774','STORM','');
-    drawHudMeter(634,31,88,gap,gap>.34?'#5fd0e8':'#df5774');
+    if(levelTheme !== 'fremont' && levelTheme !== 'boss'){
+      drawHudBadge(622,8,112,42,gap>.34?'#5fd0e8':'#df5774','STORM','');
+      drawHudMeter(634,31,88,gap,gap>.34?'#5fd0e8':'#df5774');
+    }
     const flow = Math.max(0, Math.min(1, p.gust / CFG.gustMax));
     drawHudBadge(746,8,132,42,flow>.24?'#ffd36e':'#df5774',p.feverT>0?'FEVER':p.rush>0?'RUSH':'CLOUD BLOW','');
     drawHudMeter(758,31,108,flow,flow>.24?'#ffd36e':'#df5774');
@@ -4987,8 +4990,10 @@
     drawHudBadge(140,8,80,28,p.time<CFG.warningTime?'#df5774':'#fff4d8','TIME',String(Math.ceil(p.time)).padStart(3,'0'),{font:'900 13px monospace'});
     drawHudBadge(230,8,78,28,'#df5774','HP','',{font:'900 12px monospace'});
     drawHudHeartRow(260,25,p.health,3);
-    drawHudBadge(318,8,108,28,gap>.34?'#5fd0e8':'#df5774','STORM','',{font:'900 12px monospace'});
-    drawHudMeter(372,25,42,gap,gap>.34?'#5fd0e8':'#df5774');
+    if(levelTheme !== 'fremont' && levelTheme !== 'boss'){
+      drawHudBadge(318,8,108,28,gap>.34?'#5fd0e8':'#df5774','STORM','',{font:'900 12px monospace'});
+      drawHudMeter(372,25,42,gap,gap>.34?'#5fd0e8':'#df5774');
+    }
     drawHudBadge(438,8,118,28,flow>.24?'#ffd36e':'#df5774',p.rush>0?'RUSH':'GUST','',{font:'900 12px monospace'});
     drawHudMeter(486,25,56,flow,flow>.24?'#ffd36e':'#df5774');
     if(p.reserve) drawHudBadge(570,8,112,28,'#5fd0e8','ITEM',powerLabel(p.reserve),{font:'900 12px monospace'});
