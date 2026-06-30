@@ -11,9 +11,9 @@
 
 ## Git State
 - Summary: Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: dirty | Remote: git@github.com:westkitty/c_chase.git
-- Latest commit: 0508b4c10e8b0694aaea05720113f657d6fa9a45 chore: update resurrection metadata after critique implementation
+- Latest commit: 8b3b7d803ba4cd7d6137b21e1fbf5039dccf5ac9 feat: add per-level briefing screen with controls, powerups, and objectives
 - Tracked modified count: 3
-- Untracked count: 0
+- Untracked count: 1
 - Staged count: 1
 
 ## Commands Detected
@@ -38,5 +38,5 @@ No secret-risk matches detected.
 5. Review the generated handoff before changing code.
 
 ## Scan Metadata
-- Timestamp: 2026-06-30T05:49:15+00:00
+- Timestamp: 2026-06-30T06:23:08+00:00
 - Scanner version: 1.1.0

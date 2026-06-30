@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "cloud-chaser",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "7420", "--directory", "cloud_chaser_seattle_remastered_final"],
+      "port": 7420
+    }
+  ]
+}

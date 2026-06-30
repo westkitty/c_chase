@@ -3,14 +3,14 @@
     "available": true,
     "branch": "main",
     "dirty": true,
-    "head": "0508b4c10e8b0694aaea05720113f657d6fa9a45",
-    "head_subject": "chore: update resurrection metadata after critique implementation",
+    "head": "8b3b7d803ba4cd7d6137b21e1fbf5039dccf5ac9",
+    "head_subject": "feat: add per-level briefing screen with controls, powerups, and objectives",
     "is_repo": true,
     "remote_url": "git@github.com:westkitty/c_chase.git",
     "repo_root": "/Users/andrew/cloud_chaser",
     "staged_count": 1,
     "tracked_modified_count": 3,
-    "untracked_count": 0
+    "untracked_count": 1
   },
   "identity": {
     "name": "cloud_chaser",
@@ -31,16 +31,16 @@
     "Review the generated handoff before changing code.",
     "Review the generated handoff before changing code."
   ],
-  "scan_timestamp": "2026-06-30T05:49:15+00:00",
+  "scan_timestamp": "2026-06-30T06:23:08+00:00",
   "scanner_version": "1.1.0",
   "signature": {
     "git_dirty": {
       "dirty": true,
       "staged_count": 1,
       "tracked_modified_count": 3,
-      "untracked_count": 0
+      "untracked_count": 1
     },
-    "git_head": "0508b4c10e8b0694aaea05720113f657d6fa9a45",
+    "git_head": "8b3b7d803ba4cd7d6137b21e1fbf5039dccf5ac9",
     "project_type": "static_html",
     "scanner_version": "1.1.0",
     "watched_files": {
