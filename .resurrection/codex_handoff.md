@@ -9,7 +9,7 @@ Read this handoff and project_report.md first.
 
 ## Current Git State
 - Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: dirty | Remote: git@github.com:westkitty/c_chase.git
-- Latest commit: 424b10d0722cffa1ece63ba693e3c3bff2f93002 feat: integrate remaster balance, mechanics, level reordering, and boot-time QA checks
+- Latest commit: c8302f90128cccf4e99d70101c81b6c452543010 chore: snapshot pre-critique state and add level design review PDF
 
 ## Detected Project Type
 - Type: static_html

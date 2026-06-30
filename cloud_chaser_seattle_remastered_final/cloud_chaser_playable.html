@@ -168,6 +168,8 @@
     stormLagPerCloud: 54,
     stormCatchDistance: 18,
     stormPushback: 112,
+    stormMarginDecay: 20,
+    stormMarginMax: 380,
     stormDamageCooldown: 1.05,
     gustMax: 100,
     gustStart: 58,
@@ -197,6 +199,7 @@
     starTime: 5.5,
     powerupScore: 300,
     lampRadius: 285,
+    lampLightTime: 14,
     vanIntroTime: 1.55,
     levelWidthScale: 1.0,
     levelTimeScale: 1.18,
@@ -383,7 +386,7 @@
 
   const LEVELS = [
     {
-      name:'Pike Place Market Dash', world:'PIKE PLACE 1-1', subtitle:'High-Low Canopy Flow', theme:'market', time:92, targetCaps:6, worldMaxX:4500, spawn:{x:80,y:452}, stormStartX:-260,
+      name:'Pike Place Market Dash', world:'PIKE PLACE 1-1', subtitle:'High-Low Canopy Flow', theme:'market', time:92, targetCaps:7, worldMaxX:4500, spawn:{x:80,y:452}, stormStartX:-260,
       platforms:[
         {x:-80,y:500,w:620,h:60,type:'roof'}, {x:740,y:380,w:300,h:40,type:'roof'}, {x:880,y:495,w:420,h:60,type:'roof'},
         {x:1360,y:430,w:160,h:30,type:'awning'}, {x:1560,y:450,w:160,h:30,type:'awning'}, {x:1800,y:380,w:360,h:40,type:'roof'},
@@ -423,7 +426,7 @@
       goal:{x:4300,y:360,w:92,h:140}
     },
     {
-      name:'Seattle Center Sky Ladder', world:'SEATTLE CENTER 2-1', subtitle:'Space Needle Tower Climb', theme:'center', time:108, targetCaps:7, worldMaxX:4700, spawn:{x:90,y:452}, stormStartX:-300,
+      name:'Seattle Center Sky Ladder', world:'SEATTLE CENTER 2-1', subtitle:'Space Needle Tower Climb', theme:'center', time:108, targetCaps:8, worldMaxX:4700, spawn:{x:90,y:452}, stormStartX:-300,
       platforms:[
         {x:-80,y:500,w:520,h:60,type:'play'}, {x:580,y:260,w:100,h:280,type:'play'}, {x:880,y:200,w:360,h:40,type:'play'},
         {x:1400,y:300,w:120,h:240,type:'play'}, {x:1720,y:490,w:500,h:50,type:'play'}, {x:2380,y:220,w:100,h:320,type:'play'},
@@ -531,7 +534,7 @@
         {x:2740,y:290,bonus:true},{x:3100,y:340,bonus:true}
       ],
       powerups:[
-        {type:'shoes',x:600,y:290}, {type:'shield',x:1560,y:290}, {type:'star',x:2620,y:260}
+        {type:'shoes',x:600,y:290}, {type:'shield',x:1560,y:290}, {type:'lamp',x:2620,y:260}
       ],
       tricks:[
         {x:280,y:290,label:'CHIMNEY RISE'}, {x:720,y:290,label:'PIPELINE RUN'}, {x:1200,y:220,label:'BOILER TOP'},
@@ -542,10 +545,10 @@
         {x:2100,y:500,spawnX:2120,spawnY:452,active:false,label:'PAYOUT SAVE'}
       ],
       hazards:[
-        {kind:'drone',x:480,y:270,baseY:270,alive:true,phase:0}, {kind:'drone',x:880,y:270,baseY:270,alive:true,phase:1.0},
-        {kind:'drone',x:1100,y:380,baseY:380,alive:true,phase:2.0}, {kind:'drone',x:1440,y:270,baseY:270,alive:true,phase:0.5},
-        {kind:'drone',x:1840,y:270,baseY:270,alive:true,phase:1.5}, {kind:'drone',x:2120,y:380,baseY:380,alive:true,phase:2.5},
-        {kind:'drone',x:2500,y:230,baseY:230,alive:true,phase:3.5}, {kind:'barricade',x:1400,y:450,alive:true,hp:1},
+        {kind:'drone',x:480,y:210,baseY:210,alive:true,phase:0}, {kind:'drone',x:880,y:210,baseY:210,alive:true,phase:1.0},
+        {kind:'drone',x:1100,y:350,baseY:350,alive:true,phase:2.0}, {kind:'drone',x:1440,y:210,baseY:210,alive:true,phase:0.5},
+        {kind:'drone',x:1840,y:210,baseY:210,alive:true,phase:1.5}, {kind:'drone',x:2120,y:350,baseY:350,alive:true,phase:2.5},
+        {kind:'drone',x:2500,y:210,baseY:210,alive:true,phase:3.5}, {kind:'barricade',x:1400,y:450,alive:true,hp:1},
         {kind:'barricade',x:2460,y:450,alive:true,hp:1}
       ],
       goal:{x:3200,y:440,w:92,h:140}
@@ -564,8 +567,8 @@
         {x:1020,y:240,w:120,h:18,type:'bar'}, {x:1640,y:240,w:120,h:18,type:'bar'}, {x:2280,y:240,w:120,h:18,type:'bar'}
       ],
       springs:[
-        {x:280,y:484,w:38,h:16,force:-20,label:'MONORAIL'}, {x:820,y:484,w:38,h:16,force:-20,label:'BOUNCE'},
-        {x:1650,y:484,w:38,h:16,force:-20,label:'TRANSIT'}, {x:2580,y:484,w:38,h:16,force:-19,label:'SKYWAY'}
+        {x:280,y:484,w:38,h:16,force:-17,label:'MONORAIL'}, {x:820,y:484,w:38,h:16,force:-17,label:'BOUNCE'},
+        {x:1650,y:484,w:38,h:16,force:-17,label:'TRANSIT'}, {x:2580,y:484,w:38,h:16,force:-19,label:'SKYWAY'}
       ],
       pickups:[
         {x:300,y:350,bonus:true},{x:520,y:260},{x:940,y:260,bonus:true},{x:1100,y:260},{x:1540,y:260,bonus:true},
@@ -628,8 +631,8 @@
   // Full Professional Revision systems. These are deliberately data-driven so future balancing
   // does not require hunting through the core loop like a raccoon in a wire closet.
   const LEVEL_BALANCE = [
-    {timeBonus:16, targetDelta:-1, stormBonus:135, note:'1-1 tutorial runway: lower cloud gate, softer storm pressure.'},
-    {timeBonus:14, targetDelta:-1, stormBonus:110, note:'2-1 vertical climb: more time for platform reading.'},
+    {timeBonus:16, targetDelta:0, stormBonus:135, note:'1-1 tutorial runway: 64% quota (7/11), softer storm pressure.'},
+    {timeBonus:14, targetDelta:0, stormBonus:110, note:'2-1 vertical climb: 67% quota (8/12), more time for platform reading.'},
     {timeBonus:12, targetDelta:0, stormBonus:95, note:'3-1 updraft route: slightly safer storm spacing.'},
     {timeBonus:18, targetDelta:0, stormBonus:120, note:'Bonus zone: better recovery room.'},
     {timeBonus:14, targetDelta:0, stormBonus:105, note:'Monorail romp: high-speed margin.'},
@@ -679,7 +682,7 @@
   const BOSS_TUTORIAL_STEPS = [
     {hp:7, title:'BOSS READ', text:'Watch the warning ring. Cloud blow or stomp during the open face frames.'},
     {hp:5, title:'SWEEP WINDOW', text:'After SWEEP flashes, jump over the body and punish the face cloud.'},
-    {hp:3, title:'RAGE PHASE', text:'Minions arrive now. Clear one, then hit the baron. Do not herd stupidity.'},
+    {hp:3, title:'RAGE PHASE', text:'Weak point rises — spring to scaffolding, double jump to strike. Clear minions first.'},
     {hp:1, title:'FINAL HIT', text:'Save a burst, stay above the sweep, finish the storm pump.'}
   ];
   const TIMING_MATRIX = [
@@ -1025,7 +1028,7 @@
 
     goal = {...level.goal}; cam = {x:0, vx:0, shake:0}; storm = {x:level.stormStartX ?? CFG.stormStartX, pulse:0, damageCooldown:0}; fx = []; motes=[]; cloudBlasts=[]; vfxBursts=[]; lostClouds=[]; currentRunSamples=[]; currentInputReplay=[]; lastReplayBits=""; replayFrame=0; ghostRun = loadGhost(index);
     hazards = hazards.map((h,i)=>({...h, variant:h.kind==='drone' ? ['sine','swoop','zig'][i%3] : h.kind==='barricade' && i%2 ? 'hopper' : 'solid', near:false}));
-    p = {x:level.spawn.x-58,y:level.spawn.y,w:27,h:48,vx:0,vy:0,face:1,onGround:false,coyote:0,jumpBuf:0,jumpsLeft:CFG.doubleJumps,health:practiceMode ? 4 : 3,inv:0,shield:0,starT:0,featherT:0,shoesT:0,feverT:0,switchT:0,scoutT:0,attack:0,struck:false,dashFlash:0,gust:CFG.gustStart,rush:0,chain:0,chainT:0,maxChain:0,nearMisses:0,airT:0,introT:2.2,vanT:CFG.vanIntroTime,bonusT:0,caps:0,bonusCaps:0,stamps:0,redClouds:0,bonusStars:0,flask:0,routeMedal:false,cacheReveals:0,perfect:true,reserve:null,score:0,combo:0,comboT:0,time:level.time,levelTime:level.time,targetCaps:level.targetCaps,animT:0,winFlash:0,prevY:level.spawn.y,fallingVy:0,spawnX:level.spawn.x,spawnY:level.spawn.y,rank:'',finishTime:0,ghostSampleT:0,tutorialIndex:0,damageTaken:0,deaths:0,stormCatches:0,checkpointUses:0,routeFrames:0,highRouteFrames:0,lowRouteFrames:0,bossHits:0,medalBlockers:[],scaleX:1,scaleY:1,scaleVx:0,scaleVy:0};
+    p = {x:level.spawn.x-58,y:level.spawn.y,w:27,h:48,vx:0,vy:0,face:1,onGround:false,coyote:0,jumpBuf:0,jumpsLeft:CFG.doubleJumps,health:practiceMode ? 4 : 3,inv:0,shield:0,starT:0,featherT:0,shoesT:0,feverT:0,lampT:0,switchT:0,scoutT:0,attack:0,struck:false,dashFlash:0,gust:CFG.gustStart,rush:0,chain:0,chainT:0,maxChain:0,nearMisses:0,airT:0,introT:2.2,vanT:CFG.vanIntroTime,bonusT:0,caps:0,bonusCaps:0,stamps:0,redClouds:0,bonusStars:0,flask:0,routeMedal:false,cacheReveals:0,perfect:true,reserve:null,score:0,combo:0,comboT:0,time:level.time,levelTime:level.time,targetCaps:level.targetCaps,animT:0,winFlash:0,prevY:level.spawn.y,fallingVy:0,spawnX:level.spawn.x,spawnY:level.spawn.y,rank:'',finishTime:0,ghostSampleT:0,tutorialIndex:0,damageTaken:0,deaths:0,stormCatches:0,checkpointUses:0,routeFrames:0,highRouteFrames:0,lowRouteFrames:0,bossHits:0,medalBlockers:[],scaleX:1,scaleY:1,scaleVx:0,scaleVy:0,stormMargin:0};
     spawnLevelBirds();
     state = nextState;
   }
@@ -1061,6 +1064,19 @@
       return {index:index+1, world:level.world, time:w.time, targetCaps:w.targetCaps, pickups:w.pickups.length, hazards:w.hazards.length, checkpoints:w.checkpoints.length, timing, balance:w.balance && w.balance.note, issues};
     });
   };
+  // Boot-time QA: surface structural level issues immediately at startup
+  setTimeout(()=>{
+    const results = window.__cloudChaserRegression?.();
+    if(results){
+      const failed = results.filter(r=>r.issues.length>0);
+      if(failed.length){
+        console.warn('[CloudChaser QA] Level issues detected at boot:', JSON.stringify(failed, null, 2));
+      } else {
+        console.info('[CloudChaser QA] All levels passed boot validation.');
+      }
+    }
+  }, 800);
+
   window.__cloudChaserStartLevel = function(index=0, asPractice=true){
     practiceMode = !!asPractice;
     setupLevel(Math.max(0, Math.min(LEVELS.length - 1, Number(index)||0)), 'play');
@@ -1189,7 +1205,7 @@
       p.bonusStars += 20;
       p.time += 8;
       p.bonusT = 1.4;
-      storm.x -= 160;
+      p.stormMargin = Math.min((p.stormMargin||0) + 160, CFG.stormMarginMax);
       emit(p.x+p.w/2,p.y+10,'#ffd36e',42,6.5);
       pop('ROUTE MEDAL +8s', p.x-46, p.y-58, '#ffd36e');
       playTone('oneup');
@@ -1919,7 +1935,7 @@
     clearPressedInputs();
   }
 
-  const PLAYER_TIMERS = ['inv','starT','featherT','shoesT','feverT','switchT','coyote','jumpBuf','attack','dashFlash','rush','comboT','chainT','introT','bonusT'];
+  const PLAYER_TIMERS = ['inv','starT','featherT','shoesT','feverT','lampT','switchT','coyote','jumpBuf','attack','dashFlash','rush','comboT','chainT','introT','bonusT'];
 
   function tickPlayerTimers(dt){
     for(const timer of PLAYER_TIMERS) p[timer] = Math.max(0, p[timer] - dt);
@@ -2035,7 +2051,8 @@
     const speed = baseSpeed * (isSurging ? 1.6 : 1.0);
     storm.x += speed * dt * 60;
 
-    const lag = CFG.stormLagBase + (levelBalance.stormBonus || 0) + (assistMode ? 155 : 0) + (practiceMode ? 420 : 0);
+    if(p.stormMargin > 0) p.stormMargin = Math.max(0, p.stormMargin - CFG.stormMarginDecay * dt);
+    const lag = CFG.stormLagBase + (levelBalance.stormBonus || 0) + (p.stormMargin || 0) + (assistMode ? 155 : 0) + (practiceMode ? 420 : 0);
     const desired = Math.max(CFG.stormStartX, p.x - lag);
     if (storm.x < desired) {
       const stormDist = p.x - storm.x;
@@ -2093,6 +2110,11 @@
         }
         if (h.hp <= CFG.bossRageHp && h.attackLabel === 'STORM SURGE' && h.attackWarn > 0) {
           storm.x += 2.4 * dt * 60;
+        }
+        if(h.hp <= CFG.bossRageHp && !h.rageEntered){
+          h.rageEntered = true;
+          pop('WEAK POINT RISES — TAKE THE HIGH GROUND', h.x-110, h.y-110, '#df5774');
+          cam.shake = Math.max(cam.shake, .45);
         }
         const targetBaseY = h.hp <= CFG.bossRageHp ? 176 : 276;
         h.baseY += (targetBaseY - h.baseY) * 0.05;
@@ -2155,7 +2177,7 @@
         awardBonusStars(3, c.x-18, c.y-74, 'MIDWAY');
         emit(c.x,c.y,'#68c7e8',30,5); pop('CHECKPOINT +3s', c.x-44, c.y-40, '#68c7e8'); playTone('checkpoint', c.x);
         if(p.caps >= Math.ceil(p.targetCaps * .55)){
-          p.feverT = CFG.feverTime; p.score += 350; storm.x -= 95;
+          p.feverT = CFG.feverTime; p.score += 350; p.stormMargin = Math.min((p.stormMargin||0) + 95, CFG.stormMarginMax);
           pop('CHECKPOINT FEVER!', c.x-50, c.y-62, '#ffd36e'); emit(c.x,c.y,'#ffd36e',24,5);
         }
       }
@@ -2198,7 +2220,7 @@
     if(p.chain >= 4) activateScout('CHAIN SCOUT');
     if(p.chain === 3){ p.bonusT = 1.2; pop('1-UP-ISH!', p.x-28, p.y-52, '#f2c165'); playTone('oneup'); }
     else if(p.chain > 3) playTone('rush');
-    storm.x -= 32 + Math.min(80, p.chain * 8);
+    p.stormMargin = Math.min((p.stormMargin||0) + 32 + Math.min(80, p.chain * 8), CFG.stormMarginMax);
     cam.shake = Math.max(cam.shake, .10 + Math.min(.22, p.chain*.018));
     emit(x+18,y+18,p.chain>2?'#f2c165':'#5fd0e8', 18 + Math.min(18,p.chain*3), 4.5);
     if(p.chain>2) pop(`CHAIN x${p.chain}`, p.x-18, p.y-34, '#fff1df');
@@ -2267,7 +2289,7 @@
         p.time += CFG.redCloudTime / redClouds.length;
         awardBonusStars(2, r.x-12, r.y-38, 'RED');
         fillFlask(5, r.x, r.y-48, 'RED FLASK');
-        storm.x -= 18;
+        p.stormMargin = Math.min((p.stormMargin||0) + 18, CFG.stormMarginMax);
         p.gust = Math.min(CFG.gustMax, p.gust + 7);
         emit(r.x,r.y,'#df5774',16,4.4);
         pop(`RED CLOUD +${CFG.redCloudScore}`, r.x-34, r.y-18, '#df5774');
@@ -2288,7 +2310,7 @@
         p.switchT = Math.max(p.switchT, CFG.switchTime);
         p.score += CFG.switchScore;
         p.gust = Math.min(CFG.gustMax, p.gust + 16);
-        storm.x -= 70;
+        p.stormMargin = Math.min((p.stormMargin||0) + 70, CFG.stormMarginMax);
         emit(s.x,s.y,'#df5774',34,5.6);
         pop('RED CLOUD SWITCH!', s.x-56, s.y-30, '#df5774');
         playTone('oneup');
@@ -2328,7 +2350,7 @@
         p.rush = Math.max(p.rush, CFG.dashPanelTime);
         p.dashFlash = Math.max(p.dashFlash, .34);
         p.score += 80;
-        storm.x -= 36;
+        p.stormMargin = Math.min((p.stormMargin||0) + 36, CFG.stormMarginMax);
         cam.shake = Math.max(cam.shake, .12);
         emit(d.x+d.w/2,d.y,'#5fd0e8',18,4.8);
         shockwaves.push({x: d.x + d.w/2, y: d.y, radius: 6, speed: 350, life: 0.45, maxLife: 0.45, color: 'rgba(95, 208, 232, 0.85)', alpha: 0.85});
@@ -2496,9 +2518,9 @@
         fillFlask(CFG.flaskCloudFill * (c.bonus ? 2 : 1), c.x, c.y-38, 'CLOUD FLASK');
         awardBonusStars(c.bonus ? 3 : (p.caps > p.targetCaps ? 2 : 1), c.x-8, c.y-52, c.bonus ? 'SWIFT' : 'CLOUD');
         if(p.caps === p.targetCaps) activateScout('EXIT SCOUT');
-        storm.x -= c.bonus ? CFG.stormPushback : 15;
+        p.stormMargin = Math.min((p.stormMargin||0) + (c.bonus ? CFG.stormPushback : 15), CFG.stormMarginMax);
         emit(c.x,c.y,'#fff4d8',20,4); emitRing(c.x,c.y,'#ffd36e',12); emit(c.x,c.y,'#5fd0e8',8,3);
-        if(c.bonus) pop('+6s STORM PUSH', c.x-28, c.y-15, '#fff4d8'); playTone('collect', c.x);
+        if(c.bonus) pop('+STORM MARGIN', c.x-28, c.y-15, '#fff4d8'); playTone('collect', c.x);
       }
     }
   }
@@ -2515,7 +2537,7 @@
   }
 
   function applyPowerUp(u){
-    const names = {feather:'SKY FEATHER', shoes:'GALE SHOES', shield:'BUBBLE SHIELD', star:'SUN STAR', heart:'HEART SNACK', lamp:'LAMP BURST'};
+    const names = {feather:'SKY FEATHER', shoes:'GALE SHOES', shield:'BUBBLE SHIELD', star:'SUN STAR', heart:'HEART SNACK', lamp:'LAMP BURST + LIGHT'};
     powerupFlashColor = powerColor(u.type);
     powerupFlashAlpha = 0.52;
     powerupBannerText = names[u.type] || 'POWER UP';
@@ -2528,11 +2550,11 @@
     awardBonusStars(3, u.x-10, u.y-44, powerLabel(u.type));
     fillFlask(u.type === 'heart' ? 18 : 9, u.x, u.y-56, 'POWER FLASK');
     if(u.type === 'feather'){ p.featherT = CFG.featherTime; p.jumpsLeft = Math.max(p.jumpsLeft, 2); p.gust = Math.min(CFG.gustMax, p.gust + 24); }
-    if(u.type === 'shoes'){ p.shoesT = CFG.shoesTime; p.rush = Math.max(p.rush, CFG.rushTime); storm.x -= 90; }
+    if(u.type === 'shoes'){ p.shoesT = CFG.shoesTime; p.rush = Math.max(p.rush, CFG.rushTime); p.stormMargin = Math.min((p.stormMargin||0) + 90, CFG.stormMarginMax); }
     if(u.type === 'shield'){ p.shield = 1; }
     if(u.type === 'star'){ p.starT = CFG.starTime; p.inv = Math.max(p.inv, .2); }
     if(u.type === 'heart'){ p.health = Math.min(3, p.health + 1); p.gust = Math.min(CFG.gustMax, p.gust + 18); }
-    if(u.type === 'lamp') burstLamp(u.x, u.y);
+    if(u.type === 'lamp'){ burstLamp(u.x, u.y); p.lampT = CFG.lampLightTime; }
     emit(u.x,u.y, powerColor(u.type), 36, 6);
     emit(u.x,u.y, '#fff4d8', 18, 4);
     pop(names[u.type] || 'POWER UP', u.x-38, u.y-20, powerColor(u.type));
@@ -2663,7 +2685,7 @@
     
     drawWorldLayers();
     ctx.restore();
-    drawWarnings(); drawHud(); drawObjectiveRibbon(); drawTutorialCoach(); drawDebugOverlay(); drawOverlay(); drawPolishBanners(); drawPostFX(dt || 0.016);
+    drawGasWorksDarkness(); drawWarnings(); drawHud(); drawObjectiveRibbon(); drawTutorialCoach(); drawDebugOverlay(); drawOverlay(); drawPolishBanners(); drawPostFX(dt || 0.016);
     drawTransitions(dt || 0.016);
   }
 
@@ -2767,6 +2789,37 @@
       if(p.x >= range.start && p.x <= range.end) return true;
     }
     return false;
+  }
+
+  function drawGasWorksDarkness(){
+    if(state !== 'play' || levelTheme !== 'gasworks' || !p) return;
+    const px = p.x + p.w/2 - cam.x;
+    const py = p.y + p.h/2;
+    const hasLamp = p.lampT > 0;
+    ctx.save();
+    if(hasLamp){
+      const frac = p.lampT / CFG.lampLightTime;
+      const lightR = 80 + frac * 140 + Math.sin(performance.now()/400)*6;
+      const grad = ctx.createRadialGradient(px, py, 0, px, py, lightR);
+      grad.addColorStop(0, 'rgba(0,0,0,0)');
+      grad.addColorStop(0.55, 'rgba(0,0,0,0.18)');
+      grad.addColorStop(1, 'rgba(0,0,0,0.78)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+      if(frac < 0.3){
+        const warn = .5 + Math.sin(performance.now()/160)*.5;
+        ctx.fillStyle = `rgba(255,211,110,${warn * 0.7})`; ctx.font = '900 11px monospace'; ctx.textAlign = 'center';
+        ctx.fillText('LAMP FADING', W/2, H * 0.12);
+        ctx.textAlign = 'start';
+      }
+    } else {
+      ctx.fillStyle = 'rgba(0,0,0,0.74)';
+      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = '#ffd36e'; ctx.font = '900 11px monospace'; ctx.textAlign = 'center';
+      ctx.fillText('DARK ZONE — FIND THE LAMP', W/2, H * 0.88);
+      ctx.textAlign = 'start';
+    }
+    ctx.restore();
   }
 
   function drawWarnings(){
@@ -4037,6 +4090,24 @@
 
   function drawCheckpoints(){
     for(const c of checkpoints){
+      if(!c.active && p && p.caps >= Math.ceil(p.targetCaps * .55) && p.x < c.x && c.x - p.x < 600){
+        const pulse = .55 + Math.sin(performance.now()/160) * .45;
+        ctx.save();
+        ctx.globalAlpha = 0.55 * pulse;
+        ctx.strokeStyle = '#ffd36e';
+        ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.arc(c.x+22, c.y-44, 38 + pulse * 10, 0, Math.PI*2); ctx.stroke();
+        ctx.globalAlpha = 0.35 * pulse;
+        ctx.fillStyle = '#ffd36e';
+        ctx.beginPath(); ctx.arc(c.x+22, c.y-44, 28 + pulse * 8, 0, Math.PI*2); ctx.fill();
+        ctx.restore();
+        ctx.save();
+        ctx.globalAlpha = 0.9;
+        ctx.fillStyle = '#ffd36e'; ctx.font='900 10px monospace'; ctx.textAlign='center';
+        ctx.fillText('FEVER READY', c.x+22, c.y-94);
+        ctx.textAlign='start';
+        ctx.restore();
+      }
       drawCleanPriorityMarker(c.x+22, c.y-44, 31, 39, c.active ? '#5fd0e8' : '#ffd36e', c.active ? 'SAFE' : 'CHECK', {fill:'#07131ed8', alpha:c.active ? .72 : .9});
       drawAtlas(c.active ? 'checkpointOn' : 'checkpointOff', c.x-16, c.y-82, 76, 76);
       if (c.active) {
@@ -4795,7 +4866,7 @@
     drawHudMeter(486,25,56,flow,flow>.24?'#ffd36e':'#df5774');
     if(p.reserve) drawHudBadge(570,8,112,28,'#5fd0e8','ITEM',powerLabel(p.reserve),{font:'900 12px monospace'});
     if(p.chain>1) drawHudBadge(694,8,58,28,'#ffd36e','CHAIN',`x${p.chain}`,{font:'900 13px monospace'});
-    if(p.starT>0 || p.featherT>0 || p.shoesT>0 || p.shield>0 || p.scoutT>0){ drawPowerHud(); }
+    if(p.starT>0 || p.featherT>0 || p.shoesT>0 || p.shield>0 || p.scoutT>0 || p.lampT>0){ drawPowerHud(); }
     drawSNESMessageCard();
     ctx.restore();
   }
@@ -4848,6 +4919,7 @@ function drawHudMeter(x,y,w,value,color){
     if(p.shoesT>0) items.push(['SHOES',Math.ceil(p.shoesT),'#68c7e8']);
     if(p.feverT>0) items.push(['FEVER',Math.ceil(p.feverT),'#ffd36e']);
     if(p.scoutT>0) items.push(['SCOUT',Math.ceil(p.scoutT),'#fff4d8']);
+    if(p.lampT>0) items.push(['LAMP',Math.ceil(p.lampT),'#f2c165']);
     let x=790, y=settings.cleanView !== false ? 50 : 66;
     for(const [name,time,color] of items.slice(0,3)){
       ctx.fillStyle='#0b0814dd'; ctx.fillRect(x,y,78,18);

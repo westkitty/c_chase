@@ -11,9 +11,9 @@
 
 ## Git State
 - Summary: Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: dirty | Remote: git@github.com:westkitty/c_chase.git
-- Latest commit: 424b10d0722cffa1ece63ba693e3c3bff2f93002 feat: integrate remaster balance, mechanics, level reordering, and boot-time QA checks
-- Tracked modified count: 4
-- Untracked count: 1
+- Latest commit: c8302f90128cccf4e99d70101c81b6c452543010 chore: snapshot pre-critique state and add level design review PDF
+- Tracked modified count: 3
+- Untracked count: 0
 - Staged count: 1
 
 ## Commands Detected
@@ -38,5 +38,5 @@ No secret-risk matches detected.
 5. Review the generated handoff before changing code.
 
 ## Scan Metadata
-- Timestamp: 2026-06-29T04:21:21+00:00
+- Timestamp: 2026-06-30T05:32:58+00:00
 - Scanner version: 1.1.0

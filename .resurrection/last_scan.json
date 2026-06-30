@@ -3,14 +3,14 @@
     "available": true,
     "branch": "main",
     "dirty": true,
-    "head": "424b10d0722cffa1ece63ba693e3c3bff2f93002",
-    "head_subject": "feat: integrate remaster balance, mechanics, level reordering, and boot-time QA checks",
+    "head": "c8302f90128cccf4e99d70101c81b6c452543010",
+    "head_subject": "chore: snapshot pre-critique state and add level design review PDF",
     "is_repo": true,
     "remote_url": "git@github.com:westkitty/c_chase.git",
     "repo_root": "/Users/andrew/cloud_chaser",
     "staged_count": 1,
-    "tracked_modified_count": 4,
-    "untracked_count": 1
+    "tracked_modified_count": 3,
+    "untracked_count": 0
   },
   "identity": {
     "name": "cloud_chaser",
@@ -31,16 +31,16 @@
     "Review the generated handoff before changing code.",
     "Review the generated handoff before changing code."
   ],
-  "scan_timestamp": "2026-06-29T04:21:21+00:00",
+  "scan_timestamp": "2026-06-30T05:32:58+00:00",
   "scanner_version": "1.1.0",
   "signature": {
     "git_dirty": {
       "dirty": true,
       "staged_count": 1,
-      "tracked_modified_count": 4,
-      "untracked_count": 1
+      "tracked_modified_count": 3,
+      "untracked_count": 0
     },
-    "git_head": "424b10d0722cffa1ece63ba693e3c3bff2f93002",
+    "git_head": "c8302f90128cccf4e99d70101c81b6c452543010",
     "project_type": "static_html",
     "scanner_version": "1.1.0",
     "watched_files": {
