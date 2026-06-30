@@ -11,9 +11,9 @@
 
 ## Git State
 - Summary: Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: dirty | Remote: git@github.com:westkitty/c_chase.git
-- Latest commit: 8b3b7d803ba4cd7d6137b21e1fbf5039dccf5ac9 feat: add per-level briefing screen with controls, powerups, and objectives
+- Latest commit: 0d97a60250968e6e42b6cdea12f0f6769d1f8925 feat: restore full-screen splash art pages as clean dedicated states
 - Tracked modified count: 3
-- Untracked count: 1
+- Untracked count: 0
 - Staged count: 1
 
 ## Commands Detected
@@ -38,5 +38,5 @@ No secret-risk matches detected.
 5. Review the generated handoff before changing code.
 
 ## Scan Metadata
-- Timestamp: 2026-06-30T06:23:08+00:00
+- Timestamp: 2026-06-30T06:51:33+00:00
 - Scanner version: 1.1.0

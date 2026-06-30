@@ -9,7 +9,7 @@ Read this handoff and project_report.md first.
 
 ## Current Git State
 - Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: dirty | Remote: git@github.com:westkitty/c_chase.git
-- Latest commit: 8b3b7d803ba4cd7d6137b21e1fbf5039dccf5ac9 feat: add per-level briefing screen with controls, powerups, and objectives
+- Latest commit: 0d97a60250968e6e42b6cdea12f0f6769d1f8925 feat: restore full-screen splash art pages as clean dedicated states
 
 ## Detected Project Type
 - Type: static_html

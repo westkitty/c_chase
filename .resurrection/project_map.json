@@ -12,14 +12,14 @@
     "available": true,
     "branch": "main",
     "dirty": true,
-    "head": "8b3b7d803ba4cd7d6137b21e1fbf5039dccf5ac9",
-    "head_subject": "feat: add per-level briefing screen with controls, powerups, and objectives",
+    "head": "0d97a60250968e6e42b6cdea12f0f6769d1f8925",
+    "head_subject": "feat: restore full-screen splash art pages as clean dedicated states",
     "is_repo": true,
     "remote_url": "git@github.com:westkitty/c_chase.git",
     "repo_root": "/Users/andrew/cloud_chaser",
     "staged_count": 1,
     "tracked_modified_count": 3,
-    "untracked_count": 1
+    "untracked_count": 0
   },
   "identity": {
     "name": "cloud_chaser",
@@ -40,7 +40,7 @@
     "Review the generated handoff before changing code.",
     "Review the generated handoff before changing code."
   ],
-  "scan_timestamp": "2026-06-30T06:23:08+00:00",
+  "scan_timestamp": "2026-06-30T06:51:33+00:00",
   "scanner_version": "1.1.0",
   "secret_risks": []
 }
