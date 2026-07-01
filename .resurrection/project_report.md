@@ -10,11 +10,11 @@
   - Found index.html
 
 ## Git State
-- Summary: Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: dirty | Remote: git@github.com:westkitty/c_chase.git
-- Latest commit: b5ba4e2ca163645a4ae64fc4c82c5dc214f42626 fix: completely suppress storm on fremont/boss levels
-- Tracked modified count: 3
+- Summary: Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: clean | Remote: git@github.com:westkitty/c_chase.git
+- Latest commit: 1cd8300dd08d8dc4532cc6da08c516d4d136437e chore: update resurrection metadata
+- Tracked modified count: 0
 - Untracked count: 0
-- Staged count: 1
+- Staged count: 0
 
 ## Commands Detected
 - None detected.
@@ -31,12 +31,12 @@
 No secret-risk matches detected.
 
 ## Recommended Next Actions
-1. Inspect the current uncommitted Git changes before making new edits.
-2. Back up or review fragile configuration files before any risky changes.
-3. Read `.resurrection/project_report.md` and make one bounded change at a time.
+1. Back up or review fragile configuration files before any risky changes.
+2. Read `.resurrection/project_report.md` and make one bounded change at a time.
+3. Review the generated handoff before changing code.
 4. Review the generated handoff before changing code.
 5. Review the generated handoff before changing code.
 
 ## Scan Metadata
-- Timestamp: 2026-06-30T06:59:08+00:00
+- Timestamp: 2026-07-01T11:16:26+00:00
 - Scanner version: 1.1.0

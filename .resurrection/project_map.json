@@ -11,14 +11,14 @@
   "git_state": {
     "available": true,
     "branch": "main",
-    "dirty": true,
-    "head": "b5ba4e2ca163645a4ae64fc4c82c5dc214f42626",
-    "head_subject": "fix: completely suppress storm on fremont/boss levels",
+    "dirty": false,
+    "head": "1cd8300dd08d8dc4532cc6da08c516d4d136437e",
+    "head_subject": "chore: update resurrection metadata",
     "is_repo": true,
     "remote_url": "git@github.com:westkitty/c_chase.git",
     "repo_root": "/Users/andrew/cloud_chaser",
-    "staged_count": 1,
-    "tracked_modified_count": 3,
+    "staged_count": 0,
+    "tracked_modified_count": 0,
     "untracked_count": 0
   },
   "identity": {
@@ -34,13 +34,13 @@
     "type": "static_html"
   },
   "recommended_next_actions": [
-    "Inspect the current uncommitted Git changes before making new edits.",
     "Back up or review fragile configuration files before any risky changes.",
     "Read `.resurrection/project_report.md` and make one bounded change at a time.",
     "Review the generated handoff before changing code.",
+    "Review the generated handoff before changing code.",
     "Review the generated handoff before changing code."
   ],
-  "scan_timestamp": "2026-06-30T06:59:08+00:00",
+  "scan_timestamp": "2026-07-01T11:16:26+00:00",
   "scanner_version": "1.1.0",
   "secret_risks": []
 }
