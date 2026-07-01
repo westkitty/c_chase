@@ -9,7 +9,7 @@ Read this handoff and project_report.md first.
 
 ## Current Git State
 - Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: dirty | Remote: git@github.com:westkitty/c_chase.git
-- Latest commit: 0d97a60250968e6e42b6cdea12f0f6769d1f8925 feat: restore full-screen splash art pages as clean dedicated states
+- Latest commit: b5ba4e2ca163645a4ae64fc4c82c5dc214f42626 fix: completely suppress storm on fremont/boss levels
 
 ## Detected Project Type
 - Type: static_html

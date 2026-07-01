@@ -11,7 +11,7 @@
 
 ## Git State
 - Summary: Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: dirty | Remote: git@github.com:westkitty/c_chase.git
-- Latest commit: 0d97a60250968e6e42b6cdea12f0f6769d1f8925 feat: restore full-screen splash art pages as clean dedicated states
+- Latest commit: b5ba4e2ca163645a4ae64fc4c82c5dc214f42626 fix: completely suppress storm on fremont/boss levels
 - Tracked modified count: 3
 - Untracked count: 0
 - Staged count: 1
@@ -38,5 +38,5 @@ No secret-risk matches detected.
 5. Review the generated handoff before changing code.
 
 ## Scan Metadata
-- Timestamp: 2026-06-30T06:51:33+00:00
+- Timestamp: 2026-06-30T06:59:08+00:00
 - Scanner version: 1.1.0

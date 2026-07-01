@@ -12,8 +12,8 @@
     "available": true,
     "branch": "main",
     "dirty": true,
-    "head": "0d97a60250968e6e42b6cdea12f0f6769d1f8925",
-    "head_subject": "feat: restore full-screen splash art pages as clean dedicated states",
+    "head": "b5ba4e2ca163645a4ae64fc4c82c5dc214f42626",
+    "head_subject": "fix: completely suppress storm on fremont/boss levels",
     "is_repo": true,
     "remote_url": "git@github.com:westkitty/c_chase.git",
     "repo_root": "/Users/andrew/cloud_chaser",
@@ -40,7 +40,7 @@
     "Review the generated handoff before changing code.",
     "Review the generated handoff before changing code."
   ],
-  "scan_timestamp": "2026-06-30T06:51:33+00:00",
+  "scan_timestamp": "2026-06-30T06:59:08+00:00",
   "scanner_version": "1.1.0",
   "secret_risks": []
 }
