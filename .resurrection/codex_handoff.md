@@ -8,8 +8,8 @@ Read this handoff and project_report.md first.
 - Purpose: Purpose could not be inferred confidently from filesystem signals.
 
 ## Current Git State
-- Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: clean | Remote: git@github.com:westkitty/c_chase.git
-- Latest commit: 1cd8300dd08d8dc4532cc6da08c516d4d136437e chore: update resurrection metadata
+- Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: dirty | Remote: git@github.com:westkitty/c_chase.git
+- Latest commit: ebdaac64c8cc9a3bb87191eff97683c47f4f8d5e feat(gameplay): implement Fremont Troll boss phases, safety ledges, secret breakable walls, and audio improvements
 
 ## Detected Project Type
 - Type: static_html
@@ -32,9 +32,9 @@ Read this handoff and project_report.md first.
 No secret-risk matches detected.
 
 ## Top 5 Recommended Next Actions
-1. Back up or review fragile configuration files before any risky changes.
-2. Read `.resurrection/project_report.md` and make one bounded change at a time.
-3. Review the generated handoff before changing code.
+1. Inspect the current uncommitted Git changes before making new edits.
+2. Back up or review fragile configuration files before any risky changes.
+3. Read `.resurrection/project_report.md` and make one bounded change at a time.
 4. Review the generated handoff before changing code.
 5. Review the generated handoff before changing code.
 

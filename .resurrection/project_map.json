@@ -11,14 +11,14 @@
   "git_state": {
     "available": true,
     "branch": "main",
-    "dirty": false,
-    "head": "1cd8300dd08d8dc4532cc6da08c516d4d136437e",
-    "head_subject": "chore: update resurrection metadata",
+    "dirty": true,
+    "head": "ebdaac64c8cc9a3bb87191eff97683c47f4f8d5e",
+    "head_subject": "feat(gameplay): implement Fremont Troll boss phases, safety ledges, secret breakable walls, and audio improvements",
     "is_repo": true,
     "remote_url": "git@github.com:westkitty/c_chase.git",
     "repo_root": "/Users/andrew/cloud_chaser",
-    "staged_count": 0,
-    "tracked_modified_count": 0,
+    "staged_count": 1,
+    "tracked_modified_count": 3,
     "untracked_count": 0
   },
   "identity": {
@@ -34,13 +34,13 @@
     "type": "static_html"
   },
   "recommended_next_actions": [
+    "Inspect the current uncommitted Git changes before making new edits.",
     "Back up or review fragile configuration files before any risky changes.",
     "Read `.resurrection/project_report.md` and make one bounded change at a time.",
     "Review the generated handoff before changing code.",
-    "Review the generated handoff before changing code.",
     "Review the generated handoff before changing code."
   ],
-  "scan_timestamp": "2026-07-01T11:16:26+00:00",
+  "scan_timestamp": "2026-07-01T11:49:28+00:00",
   "scanner_version": "1.1.0",
   "secret_risks": []
 }

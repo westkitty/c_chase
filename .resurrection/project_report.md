@@ -10,11 +10,11 @@
   - Found index.html
 
 ## Git State
-- Summary: Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: clean | Remote: git@github.com:westkitty/c_chase.git
-- Latest commit: 1cd8300dd08d8dc4532cc6da08c516d4d136437e chore: update resurrection metadata
-- Tracked modified count: 0
+- Summary: Repo root: /Users/andrew/cloud_chaser | Branch: main | Status: dirty | Remote: git@github.com:westkitty/c_chase.git
+- Latest commit: ebdaac64c8cc9a3bb87191eff97683c47f4f8d5e feat(gameplay): implement Fremont Troll boss phases, safety ledges, secret breakable walls, and audio improvements
+- Tracked modified count: 3
 - Untracked count: 0
-- Staged count: 0
+- Staged count: 1
 
 ## Commands Detected
 - None detected.
@@ -31,12 +31,12 @@
 No secret-risk matches detected.
 
 ## Recommended Next Actions
-1. Back up or review fragile configuration files before any risky changes.
-2. Read `.resurrection/project_report.md` and make one bounded change at a time.
-3. Review the generated handoff before changing code.
+1. Inspect the current uncommitted Git changes before making new edits.
+2. Back up or review fragile configuration files before any risky changes.
+3. Read `.resurrection/project_report.md` and make one bounded change at a time.
 4. Review the generated handoff before changing code.
 5. Review the generated handoff before changing code.
 
 ## Scan Metadata
-- Timestamp: 2026-07-01T11:16:26+00:00
+- Timestamp: 2026-07-01T11:49:28+00:00
 - Scanner version: 1.1.0
